@@ -35,16 +35,13 @@ export default function About() {
               </span>
             </h2>
             <p className="mt-6 text-gray-500 text-lg leading-relaxed">
-              We started OneCape because we saw too many great businesses remain invisible. Not because their product wasn&apos;t good enough — because they didn&apos;t have the right cape. The right strategy. The right voice. The right digital presence.
+              We started OneCape because we saw too many great businesses remain invisible. Not because their product wasn&apos;t good enough — but because their brand didn&apos;t connect. No story. No feeling. No reason for people to care.
             </p>
             <p className="mt-4 text-gray-500 text-lg leading-relaxed">
-              We believe every business — whether you&apos;re a founder in a garage or a D2C brand scaling to millions — deserves a brand that stands out, shows up in search (and AI search), and converts attention into growth.
+              We believe every business — whether you&apos;re a founder in a garage or a D2C brand scaling to millions — deserves a brand that people remember. A brand that makes someone stop scrolling. A brand that feels like it was made just for them.
             </p>
             <p className="mt-4 text-gray-500 text-lg leading-relaxed">
-              We&apos;re a team of strategists, creatives, and digital operators passionate about empowering brands. From startups launching for the first time to established businesses reinventing themselves — we put the cape on and help you fly.
-            </p>
-            <p className="mt-4 text-gray-500 text-lg leading-relaxed">
-              The cape isn&apos;t just a metaphor. It&apos;s what you put on when you&apos;re ready to show up differently. Bolder. Sharper. Unstoppable. That&apos;s what we bring to every project.
+              The cape isn&apos;t just a logo or a color palette. It&apos;s the feeling people get when they encounter your brand. That&apos;s what we build — brands that make people feel something.
             </p>
           </div>
 

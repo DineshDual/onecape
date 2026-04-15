@@ -1,19 +1,19 @@
 const testimonials = [
   {
     quote:
-      "OneCape gave us a brand identity that finally feels like us. They didn't just design a logo — they gave us a whole identity system that we're proud to put everywhere.",
+      "They didn't just build our brand — they gave it a soul. For the first time, people aren't just buying our product, they're buying into our story.",
     attribution: "Founder, D2C Fashion Brand",
     rating: 5,
   },
   {
     quote:
-      "The SEO and GEO strategy they built has us showing up in AI answers, not just Google. That's future-proofing our brand visibility.",
+      "OneCape understood something no other agency did — that our brand needed to feel personal, not polished. And that's exactly what they delivered.",
     attribution: "Marketing Lead, SaaS Startup",
     rating: 5,
   },
   {
     quote:
-      "From zero online presence to a full brand launch in weeks. The cape metaphor is real — they made us feel unstoppable going to market.",
+      "Working with OneCape felt like having a co-founder who happens to be brilliant at branding. They cared about our brand as much as we did.",
     attribution: "CEO, Health-Tech Company",
     rating: 5,
   },

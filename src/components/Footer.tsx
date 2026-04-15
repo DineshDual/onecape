@@ -74,7 +74,7 @@ export default function Footer() {
               <ul className="space-y-2 text-sm text-gray-400">
                 <li><a href="#services" className="hover:text-[#FF6600] transition-colors min-h-[44px] inline-flex items-center">Brand Identity & Strategy</a></li>
                 <li><a href="#services" className="hover:text-[#FF6600] transition-colors min-h-[44px] inline-flex items-center">Social Media Strategy</a></li>
-                <li><a href="#services" className="hover:text-[#FF6600] transition-colors min-h-[44px] inline-flex items-center">SEO & GEO</a></li>
+                <li><a href="#services" className="hover:text-[#FF6600] transition-colors min-h-[44px] inline-flex items-center">SEO & Digital Presence</a></li>
                 <li><a href="#services" className="hover:text-[#FF6600] transition-colors min-h-[44px] inline-flex items-center">Performance Campaigns</a></li>
                 <li><a href="#services" className="hover:text-[#FF6600] transition-colors min-h-[44px] inline-flex items-center">Content Creation</a></li>
                 <li><a href="#services" className="hover:text-[#FF6600] transition-colors min-h-[44px] inline-flex items-center">Web Design & Dev</a></li>

@@ -6,38 +6,38 @@ const usps = [
   {
     number: "01",
     headline: "One Cape. Full Stack.",
-    description: "Most agencies specialize in one thing. OneCape does everything under one roof. One team, one strategy, one cape. No handoffs between agencies. No conflicting advice.",
+    description: "Most agencies specialize in one thing — SEO OR social OR design. OneCape does everything under one roof. One team, one strategy, one cape. No handoffs. No conflicting advice. Just a partner who knows your brand inside out.",
   },
   {
     number: "02",
-    headline: "GEO, Not Just SEO.",
-    description: "Other agencies still optimize for Google. We optimize for AI too. Generative Engine Optimization means your brand shows up in ChatGPT, Perplexity, and AI-powered search — not just blue links.",
+    headline: "People First, Not Just Platforms.",
+    description: "Other agencies optimize for algorithms. We optimize for humans. Because behind every click, every search, every scroll — there's a person. We build brands that make people feel something, not just rank somewhere.",
   },
   {
     number: "03",
     headline: "Built for Builders.",
-    description: "We don't chase enterprise retainers. We work with founders, startups, and growing brands who need a partner that moves fast, thinks bold, and cares like it's their own brand.",
+    description: "We don't chase enterprise retainers. We work with founders, startups, and growing brands who need a partner that moves fast, thinks bold, and cares like it's their own brand. You're not a ticket number — you're our mission.",
   },
   {
     number: "04",
     headline: "Speed Over Ceremony.",
-    description: "No 3-week onboarding. No 47-page strategy decks that collect dust. We move fast: brief → strategy → live in days, not months. Done is better than perfect.",
+    description: "No 3-week onboarding. No 47-page strategy decks that collect dust. We move fast: brief → strategy → live in days, not months. Because your brand can't wait, and neither should you.",
   },
   {
     number: "05",
-    headline: "Data-Informed, Not Data-Paralyzed.",
-    description: "We use data to make decisions, not to avoid them. We test fast, learn faster, and optimize continuously. No vanity metrics — only numbers that move your business.",
+    headline: "Stories That Stick.",
+    description: "Data tells you what happened. Storytelling tells people why they should care. We blend both — insights that guide us, narratives that move your audience. Numbers inform. Stories transform.",
   },
   {
     number: "06",
     headline: "Your Brand, Your Cape.",
-    description: "Every brand is unique. We don't do templates or cookie-cutter. Your strategy, your voice, your identity — custom-built from scratch. The cape fits YOU.",
+    description: "Every brand is unique. We don't do templates or cookie-cutter. Your strategy, your voice, your identity — custom-built from scratch. Because a brand that looks like everyone else is a brand nobody remembers.",
   },
 ];
 
 const comparisons = [
   { others: "One service", onecape: "Full stack under one cape" },
-  { others: "SEO only", onecape: "SEO + GEO (AI search)" },
+  { others: "Algorithms first", onecape: "People first" },
   { others: "Slow onboarding", onecape: "Live in days, not months" },
   { others: "Template solutions", onecape: "Custom-built for you" },
   { others: "You're a ticket", onecape: "You're our mission" },

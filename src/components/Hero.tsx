@@ -104,7 +104,7 @@ export default function Hero() {
         {/* Subheadline */}
         <p className="max-w-2xl mx-auto text-lg sm:text-xl text-gray-500 leading-relaxed mt-8 mb-12">
           The cape your business needs to thrive in the digital era.
-          <span className="text-[#FF6600] font-semibold"> Full-stack branding. AI-ready. Built for builders.</span>
+          <span className="text-[#FF6600] font-semibold"> Full-stack branding. Human connection. Built for builders.</span>
         </p>
 
         {/* CTAs */}

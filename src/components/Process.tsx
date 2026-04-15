@@ -6,22 +6,22 @@ const steps = [
   {
     number: "01",
     title: "Discovery",
-    description: "Deep dive into your market, audience, and competitive landscape to uncover your brand's unique edge.",
+    description: "We listen. Really listen. To your story, your audience, your ambitions.",
   },
   {
     number: "02",
     title: "Strategy",
-    description: "Craft a roadmap that ties every brand decision to a measurable business outcome.",
+    description: "We craft a plan that puts your brand where it belongs — in people's hearts, not just their feeds.",
   },
   {
     number: "03",
     title: "Creation",
-    description: "Build the brand system — visual, verbal, and digital — that brings the strategy to life.",
+    description: "We bring your brand to life — every pixel, every word, every feeling.",
   },
   {
     number: "04",
     title: "Launch",
-    description: "Execute with precision, measure relentlessly, and optimize for maximum impact.",
+    description: "We unleash your brand into the world. And we stay with you as it grows.",
   },
 ];
 

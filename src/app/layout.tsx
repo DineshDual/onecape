@@ -9,26 +9,28 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "OneCape — Brand Building Agency for the Digital Era | Strategy, Social Media, SEO & GEO",
+  title: "OneCape — Brand Building Agency | Strategy, Social Media, SEO & Digital Presence",
   description:
-    "OneCape is the brand building agency that gives your business its cape — strategy, social media, SEO/GEO, performance campaigns, and more. Built for startups and growing brands in the digital era.",
+    "OneCape is the brand building agency that gives your business its cape. We build brands that connect, resonate, and grow. Strategy, social media, SEO, content, and more.",
   keywords: [
     "brand building agency",
     "digital branding",
     "social media strategy",
     "SEO agency",
-    "GEO optimization",
+    "brand connection",
+    "brand storytelling",
     "brand identity",
     "brand launch",
     "content creation",
     "performance marketing",
+    "digital presence",
     "startup branding",
     "D2C branding",
   ],
   openGraph: {
-    title: "OneCape — Brand Building Agency for the Digital Era",
+    title: "OneCape — Brand Building Agency",
     description:
-      "The cape your business needs to thrive in the digital era. Full-stack branding. AI-ready. Built for builders.",
+      "Brands that connect. Brands that grow.",
     url: "https://onecape-marketing.netlify.app",
     type: "website",
     locale: "en_US",
@@ -36,9 +38,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "OneCape — Brand Building Agency for the Digital Era",
+    title: "OneCape — Brand Building Agency",
     description:
-      "The cape your business needs to thrive in the digital era. Full-stack branding. AI-ready. Built for builders.",
+      "Brands that connect. Brands that grow.",
   },
   robots: {
     index: true,
@@ -53,7 +55,7 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: "OneCape",
-  description: "Brand building agency for the digital era",
+  description: "Brand building agency that builds brands that connect, resonate, and grow",
   url: "https://onecape-marketing.netlify.app",
   logo: "https://onecape-marketing.netlify.app/logo.svg",
   sameAs: [],

@@ -3,7 +3,7 @@ const services = [
     id: "01",
     title: "Brand Identity & Strategy",
     description:
-      "Logo, brand voice, positioning, visual identity system — the face of your brand. We build identities that make businesses unforgettable.",
+      "Your brand's face, voice, and soul. Logo, positioning, visual identity — everything that makes people recognize and remember you.",
     badge: "Core",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" className="w-8 h-8" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
@@ -16,7 +16,7 @@ const services = [
     id: "02",
     title: "Social Media Strategy",
     description:
-      "Platform strategy, content calendars, community building, influencer collaboration — turn social into your growth engine.",
+      "Where your brand meets your people. Platform strategy, content that sparks conversations, and community that actually cares.",
     badge: null,
     icon: (
       <svg viewBox="0 0 24 24" fill="none" className="w-7 h-7" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
@@ -27,10 +27,10 @@ const services = [
   },
   {
     id: "03",
-    title: "SEO & GEO",
+    title: "SEO & Digital Presence",
     description:
-      "Search Engine Optimization + Generative Engine Optimization — get your brand found on Google AND in AI answers.",
-    badge: "New",
+      "Be found by the people who need you. Search optimization and digital presence management that puts you where your audience is looking.",
+    badge: null,
     icon: (
       <svg viewBox="0 0 24 24" fill="none" className="w-7 h-7" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
         <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6" />
@@ -42,7 +42,7 @@ const services = [
     id: "04",
     title: "Performance Campaigns",
     description:
-      "Paid media, Google Ads, Meta Ads, ROI-driven campaigns — every rupee works harder with data behind it.",
+      "Campaigns that don't just reach people — they move them. Google Ads, Meta Ads, ROI-driven strategies that turn attention into action.",
     badge: null,
     icon: (
       <svg viewBox="0 0 24 24" fill="none" className="w-7 h-7" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
@@ -55,7 +55,7 @@ const services = [
     id: "05",
     title: "Content Creation",
     description:
-      "Reels, carousels, blogs, newsletters — content that converts. We create what your audience actually wants to engage with.",
+      "Content that makes people feel something. Reels, carousels, blogs, newsletters — crafted to connect, not just fill feeds.",
     badge: null,
     icon: (
       <svg viewBox="0 0 24 24" fill="none" className="w-7 h-7" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
@@ -68,7 +68,7 @@ const services = [
     id: "06",
     title: "Web Design & Development",
     description:
-      "Landing pages, websites, e-commerce — your digital storefront. Fast, beautiful, built to convert.",
+      "Your digital home. Landing pages, websites, e-commerce — designed to welcome, engage, and convert.",
     badge: null,
     icon: (
       <svg viewBox="0 0 24 24" fill="none" className="w-7 h-7" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
@@ -81,7 +81,7 @@ const services = [
     id: "07",
     title: "Brand Launch Package",
     description:
-      "End-to-end launch for new brands — strategy + identity + digital presence + launch campaign. Go live with impact.",
+      "End-to-end launch: strategy + identity + digital presence + launch campaign. Everything your brand needs to make a powerful first impression.",
     badge: "Most Popular",
     icon: (
       <svg viewBox="0 0 24 24" fill="none" className="w-7 h-7" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
@@ -94,7 +94,7 @@ const services = [
     id: "08",
     title: "Reputation Management",
     description:
-      "Online reviews, PR, crisis management, brand monitoring — protect and grow the brand you've built.",
+      "Protect what you've built. Reviews, PR, brand monitoring — because your reputation is your most valuable asset.",
     badge: null,
     icon: (
       <svg viewBox="0 0 24 24" fill="none" className="w-7 h-7" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
