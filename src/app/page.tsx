@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import SocialProofBar from "@/components/SocialProofBar";
 import Services from "@/components/Services";
+import WhyOneCape from "@/components/WhyOneCape";
 import Process from "@/components/Process";
 import Portfolio from "@/components/Portfolio";
 import Testimonials from "@/components/Testimonials";
@@ -17,10 +18,15 @@ export default function Home() {
       <Header />
       <main>
         <Hero />
-        <SocialProofBar />
+        <ScrollReveal>
+          <SocialProofBar />
+        </ScrollReveal>
         <div className="divider-accent max-w-6xl mx-auto" />
         <ScrollReveal>
           <Services />
+        </ScrollReveal>
+        <ScrollReveal variant="fade-up" stagger>
+          <WhyOneCape />
         </ScrollReveal>
         <ScrollReveal>
           <Process />

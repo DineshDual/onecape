@@ -9,38 +9,58 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "OneCape — Your Brand's Superpower | Digital Brand Building Agency",
+  title: "OneCape — Brand Building Agency for the Digital Era | Strategy, Social Media, SEO & GEO",
   description:
-    "OneCape gives businesses the cape they need to thrive in the digital era. Brand identity, social media, SEO, performance campaigns, and more.",
+    "OneCape is the brand building agency that gives your business its cape — strategy, social media, SEO/GEO, performance campaigns, and more. Built for startups and growing brands in the digital era.",
   keywords: [
-    "brand agency",
-    "brand strategy",
-    "digital marketing",
+    "brand building agency",
+    "digital branding",
     "social media strategy",
-    "SEO",
-    "GEO",
-    "performance campaigns",
+    "SEO agency",
+    "GEO optimization",
+    "brand identity",
+    "brand launch",
     "content creation",
-    "web design",
-    "OneCape",
+    "performance marketing",
+    "startup branding",
+    "D2C branding",
   ],
   openGraph: {
-    title: "OneCape — Your Brand's Superpower",
+    title: "OneCape — Brand Building Agency for the Digital Era",
     description:
-      "One Cape for your business. Brand building power for the digital era.",
+      "The cape your business needs to thrive in the digital era. Full-stack branding. AI-ready. Built for builders.",
+    url: "https://onecape-marketing.netlify.app",
     type: "website",
     locale: "en_US",
     siteName: "OneCape",
   },
   twitter: {
     card: "summary_large_image",
-    title: "OneCape — Your Brand's Superpower",
+    title: "OneCape — Brand Building Agency for the Digital Era",
     description:
-      "One Cape for your business. Brand building power for the digital era.",
+      "The cape your business needs to thrive in the digital era. Full-stack branding. AI-ready. Built for builders.",
   },
   robots: {
     index: true,
     follow: true,
+  },
+  alternates: {
+    canonical: "https://onecape-marketing.netlify.app",
+  },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "OneCape",
+  description: "Brand building agency for the digital era",
+  url: "https://onecape-marketing.netlify.app",
+  logo: "https://onecape-marketing.netlify.app/logo.svg",
+  sameAs: [],
+  contactPoint: {
+    "@type": "ContactPoint",
+    email: "hello@onecape.agency",
+    contactType: "sales",
   },
 };
 
@@ -54,7 +74,13 @@ export default function RootLayout({
       lang="en"
       className={`${jakarta.variable} scroll-smooth antialiased`}
     >
-      <body className="bg-[#0a0e1a] text-gray-100 font-sans min-h-screen">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
+      <body className="bg-white text-gray-100 font-sans min-h-screen">
         {children}
       </body>
     </html>

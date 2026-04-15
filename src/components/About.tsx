@@ -19,7 +19,7 @@ const values = [
 
 export default function About() {
   return (
-    <section id="about" className="py-24 sm:py-32 px-6 bg-[#F9FAFB]">
+    <section id="about" className="py-24 sm:py-32 px-6 bg-[#F9FAFB]" aria-labelledby="about-heading">
       <div className="max-w-7xl mx-auto">
         {/* About section */}
         <div className="grid lg:grid-cols-2 gap-16 items-start">
@@ -28,33 +28,23 @@ export default function About() {
             <span className="text-xs text-[#FF6600] tracking-[0.3em] uppercase font-medium">
               Why OneCape
             </span>
-            <h2 className="mt-4 text-3xl sm:text-4xl font-extrabold text-[#0D1B2A] leading-tight">
+            <h2 id="about-heading" className="mt-4 text-3xl sm:text-4xl font-extrabold text-[#0D1B2A] leading-tight">
               We believe every business{" "}
               <span className="text-gradient-accent font-extrabold">
                 deserves a cape.
               </span>
             </h2>
             <p className="mt-6 text-gray-500 text-lg leading-relaxed">
-              Every superhero needs a cape — that one thing that gives them the
-              power to show up, stand out, and make an impact. That&apos;s exactly
-              what we are for businesses.
+              We started OneCape because we saw too many great businesses remain invisible. Not because their product wasn&apos;t good enough — because they didn&apos;t have the right cape. The right strategy. The right voice. The right digital presence.
             </p>
             <p className="mt-4 text-gray-500 text-lg leading-relaxed">
-              OneCape exists because we believe the digital era has leveled the
-              playing field — but only for those who show up with a powerful brand.
-              Most businesses don&apos;t fail because of bad products. They fail
-              because they&apos;re invisible. We make sure that never happens.
+              We believe every business — whether you&apos;re a founder in a garage or a D2C brand scaling to millions — deserves a brand that stands out, shows up in search (and AI search), and converts attention into growth.
             </p>
             <p className="mt-4 text-gray-500 text-lg leading-relaxed">
-              We&apos;re a team of strategists, creatives, and digital operators
-              passionate about empowering brands. From startups launching for the
-              first time to established businesses reinventing themselves — we
-              put the cape on and help you fly.
+              We&apos;re a team of strategists, creatives, and digital operators passionate about empowering brands. From startups launching for the first time to established businesses reinventing themselves — we put the cape on and help you fly.
             </p>
             <p className="mt-4 text-gray-500 text-lg leading-relaxed">
-              The cape isn&apos;t just a metaphor. It&apos;s what you put on when
-              you&apos;re ready to show up differently. Bolder. Sharper. Unstoppable.
-              That&apos;s what we bring to every project.
+              The cape isn&apos;t just a metaphor. It&apos;s what you put on when you&apos;re ready to show up differently. Bolder. Sharper. Unstoppable. That&apos;s what we bring to every project.
             </p>
           </div>
 
@@ -65,7 +55,7 @@ export default function About() {
                 key={value.title}
                 className="bg-white p-6 rounded-lg border border-[#E5E5E5] shadow-sm transition-all duration-500 hover:translate-y-[-2px] hover:shadow-md"
               >
-                <span className="text-3xl font-extrabold text-[#FF6600]/15">
+                <span className="text-3xl font-extrabold text-[#FF6600]/15" aria-hidden="true">
                   {String(idx + 1).padStart(2, "0")}
                 </span>
                 <h3 className="mt-2 text-[#0D1B2A] font-bold tracking-wide">{value.title}</h3>
