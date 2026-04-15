@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 const trustIndicators = [
-  { icon: "✓", text: "Free brand audit" },
+  { icon: "✓", text: "Free brand consultation" },
   { icon: "⚡", text: "Response within 24 hours" },
   { icon: "🔒", text: "No commitment required" },
 ];
@@ -34,13 +34,13 @@ export default function Contact() {
         <div className="grid lg:grid-cols-2 gap-16">
           {/* Left: CTA */}
           <div className="flex flex-col justify-center">
-            <span className="text-xs text-[#E63946] tracking-[0.3em] uppercase font-medium">
+            <span className="text-xs text-[#FF6600] tracking-[0.3em] uppercase font-medium">
               Get Started
             </span>
-            <h2 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-black text-[#0D1B2A] leading-tight">
+            <h2 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#0D1B2A] leading-tight">
               Get Your Free{" "}
-              <span style={{ fontFamily: "var(--font-playfair)" }} className="text-gradient-gold italic">
-                Brand Audit
+              <span className="text-gradient-accent font-extrabold">
+                Brand Consultation
               </span>
             </h2>
             <p className="mt-6 text-gray-500 text-lg leading-relaxed">
@@ -52,33 +52,21 @@ export default function Contact() {
             <div className="mt-10 space-y-4">
               {trustIndicators.map((item) => (
                 <div key={item.text} className="flex items-center gap-3">
-                  <span className="text-[#E63946] text-lg">{item.icon}</span>
+                  <span className="text-[#FF6600] text-lg">{item.icon}</span>
                   <span className="text-gray-600 font-medium">{item.text}</span>
                 </div>
               ))}
             </div>
 
-            {/* Social proof near form */}
-            <div className="mt-10 inline-flex items-center gap-3 px-5 py-3 bg-[#E63946]/[0.04] border border-[#E63946]/10 rounded-full">
-              <div className="flex -space-x-2">
-                {["AM", "SC", "DO", "+"].map((initials, i) => (
-                  <div key={i} className="w-8 h-8 rounded-full bg-[#E63946]/10 border-2 border-white flex items-center justify-center text-[#E63946] text-[10px] font-bold">
-                    {initials}
-                  </div>
-                ))}
-              </div>
-              <span className="text-sm text-gray-500">Join <span className="text-[#E63946] font-bold">150+</span> brands who started here</span>
-            </div>
-
             <div className="mt-10 space-y-4">
               <div className="flex items-center gap-3 text-gray-500">
-                <svg className="w-5 h-5 text-[#E63946]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <svg className="w-5 h-5 text-[#FF6600]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
                 </svg>
                 <span>hello@onecape.agency</span>
               </div>
               <div className="flex items-center gap-3 text-gray-500">
-                <svg className="w-5 h-5 text-[#E63946]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <svg className="w-5 h-5 text-[#FF6600]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
                 </svg>
@@ -99,7 +87,7 @@ export default function Contact() {
                   value={formData.name}
                   onChange={handleChange}
                   placeholder=" "
-                  className="w-full px-4 py-4 bg-white border border-[#E5E5E5] rounded-lg text-[#0D1B2A] placeholder-transparent focus:border-[#E63946] focus:outline-none transition-all"
+                  className="w-full px-4 py-4 bg-white border border-[#E5E5E5] rounded-lg text-[#0D1B2A] placeholder-transparent focus:border-[#FF6600] focus:outline-none transition-all"
                 />
                 <label htmlFor="name" className="text-gray-400">Name *</label>
               </div>
@@ -112,7 +100,7 @@ export default function Contact() {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder=" "
-                  className="w-full px-4 py-4 bg-white border border-[#E5E5E5] rounded-lg text-[#0D1B2A] placeholder-transparent focus:border-[#E63946] focus:outline-none transition-all"
+                  className="w-full px-4 py-4 bg-white border border-[#E5E5E5] rounded-lg text-[#0D1B2A] placeholder-transparent focus:border-[#FF6600] focus:outline-none transition-all"
                 />
                 <label htmlFor="email" className="text-gray-400">Email *</label>
               </div>
@@ -126,7 +114,7 @@ export default function Contact() {
                   value={formData.company}
                   onChange={handleChange}
                   placeholder=" "
-                  className="w-full px-4 py-4 bg-white border border-[#E5E5E5] rounded-lg text-[#0D1B2A] placeholder-transparent focus:border-[#E63946] focus:outline-none transition-all"
+                  className="w-full px-4 py-4 bg-white border border-[#E5E5E5] rounded-lg text-[#0D1B2A] placeholder-transparent focus:border-[#FF6600] focus:outline-none transition-all"
                 />
                 <label htmlFor="company" className="text-gray-400">Company</label>
               </div>
@@ -136,13 +124,13 @@ export default function Contact() {
                   name="budget"
                   value={formData.budget}
                   onChange={handleChange}
-                  className="w-full px-4 py-4 bg-white border border-[#E5E5E5] rounded-lg text-[#0D1B2A] focus:border-[#E63946] focus:outline-none transition-all appearance-none cursor-pointer"
+                  className="w-full px-4 py-4 bg-white border border-[#E5E5E5] rounded-lg text-[#0D1B2A] focus:border-[#FF6600] focus:outline-none transition-all appearance-none cursor-pointer"
                 >
                   <option value="">Budget Range</option>
-                  <option value="10k-25k">$10K – $25K</option>
-                  <option value="25k-50k">$25K – $50K</option>
-                  <option value="50k-100k">$50K – $100K</option>
-                  <option value="100k+">$100K+</option>
+                  <option value="10k-25k">₹1L – ₹5L</option>
+                  <option value="25k-50k">₹5L – ₹15L</option>
+                  <option value="50k-100k">₹15L – ₹50L</option>
+                  <option value="100k+">₹50L+</option>
                 </select>
                 <svg className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
@@ -158,15 +146,15 @@ export default function Contact() {
                 value={formData.message}
                 onChange={handleChange}
                 placeholder=" "
-                className="w-full px-4 py-4 bg-white border border-[#E5E5E5] rounded-lg text-[#0D1B2A] placeholder-transparent focus:border-[#E63946] focus:outline-none transition-all resize-none"
+                className="w-full px-4 py-4 bg-white border border-[#E5E5E5] rounded-lg text-[#0D1B2A] placeholder-transparent focus:border-[#FF6600] focus:outline-none transition-all resize-none"
               />
               <label htmlFor="message" className="text-gray-400">Tell us about your project *</label>
             </div>
             <button
               type="submit"
-              className="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-[#E63946] to-[#C1121F] text-white font-black tracking-wide text-sm transition-all duration-300 hover:shadow-[0_0_40px_rgba(230,57,70,0.3)] hover:scale-[1.02] rounded-sm"
+              className="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-[#FF6600] to-[#E55A00] text-white font-bold tracking-wide text-sm transition-all duration-300 hover:shadow-[0_0_40px_rgba(255,102,0,0.3)] hover:scale-[1.02] rounded-sm"
             >
-              Get Your Free Brand Audit →
+              Get Your Free Brand Consultation →
             </button>
           </form>
         </div>

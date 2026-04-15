@@ -15,8 +15,7 @@ export default function Header() {
   const navLinks = [
     { label: "Services", href: "#services" },
     { label: "Process", href: "#process" },
-    { label: "Results", href: "#results" },
-    { label: "Work", href: "#portfolio" },
+    { label: "Capabilities", href: "#portfolio" },
     { label: "About", href: "#about" },
     { label: "Contact", href: "#contact" },
   ];
@@ -32,7 +31,7 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         {/* Logo */}
         <a href="#" className="flex items-center gap-2.5 group">
-          <div className="w-9 h-9 bg-gradient-to-br from-[#E63946] to-[#C1121F] rounded-md flex items-center justify-center transition-transform group-hover:scale-110 shadow-lg shadow-[#E63946]/10">
+          <div className="w-9 h-9 bg-gradient-to-br from-[#FF6600] to-[#E55A00] rounded-md flex items-center justify-center transition-transform group-hover:scale-110 shadow-lg shadow-[#FF6600]/10">
             <svg
               viewBox="0 0 32 32"
               fill="none"
@@ -40,14 +39,13 @@ export default function Header() {
               stroke="currentColor"
               strokeWidth={2}
             >
-              {/* Shield/cape shape */}
               <path d="M16 4L6 10v8c0 6 10 10 10 10s10-4 10-10v-8L16 4z" fill="currentColor" opacity="0.3" />
               <path d="M16 4L6 10v8c0 6 10 10 10 10s10-4 10-10v-8L16 4z" />
               <path d="M12 16l3 3 5-6" strokeWidth={2.5} />
             </svg>
           </div>
-          <span className={`text-xl font-bold tracking-wider ${scrolled ? 'text-[#0D1B2A]' : 'text-[#0D1B2A]'}`}>
-            One<span className="text-[#E63946]">Cape</span>
+          <span className="text-xl font-bold tracking-wider text-[#0D1B2A]">
+            One<span className="text-[#FF6600]">Cape</span>
           </span>
         </a>
 
@@ -57,14 +55,14 @@ export default function Header() {
             <a
               key={link.href}
               href={link.href}
-              className={`text-[13px] ${scrolled ? 'text-gray-500' : 'text-gray-500'} hover:text-[#E63946] transition-colors duration-300 tracking-widest uppercase font-medium`}
+              className={`text-[13px] text-gray-500 hover:text-[#FF6600] transition-colors duration-300 tracking-widest uppercase font-medium`}
             >
               {link.label}
             </a>
           ))}
           <a
             href="#contact"
-            className="ml-3 px-5 py-2.5 text-[13px] font-bold border-2 border-[#E63946] text-[#E63946] hover:bg-[#E63946] hover:text-white transition-all duration-300 tracking-widest uppercase rounded-sm"
+            className="ml-3 px-5 py-2.5 text-[13px] font-bold border-2 border-[#FF6600] text-[#FF6600] hover:bg-[#FF6600] hover:text-white transition-all duration-300 tracking-widest uppercase rounded-sm"
           >
             Book a Call
           </a>
@@ -73,7 +71,7 @@ export default function Header() {
         {/* Mobile menu button */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="lg:hidden text-gray-500 hover:text-[#E63946] transition-colors p-1"
+          className="lg:hidden text-gray-500 hover:text-[#FF6600] transition-colors p-1"
           aria-label="Toggle menu"
         >
           <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -88,7 +86,7 @@ export default function Header() {
 
       {/* Line on scroll */}
       {scrolled && (
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#E63946]/20 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#FF6600]/20 to-transparent" />
       )}
 
       {/* Mobile Nav */}
@@ -99,7 +97,7 @@ export default function Header() {
               key={link.href}
               href={link.href}
               onClick={() => setMenuOpen(false)}
-              className="text-gray-600 hover:text-[#E63946] transition-colors tracking-widest uppercase text-sm font-medium"
+              className="text-gray-600 hover:text-[#FF6600] transition-colors tracking-widest uppercase text-sm font-medium"
             >
               {link.label}
             </a>
@@ -107,7 +105,7 @@ export default function Header() {
           <a
             href="#contact"
             onClick={() => setMenuOpen(false)}
-            className="mt-2 px-5 py-3 text-sm font-bold border-2 border-[#E63946] text-[#E63946] hover:bg-[#E63946] hover:text-white transition-all duration-300 tracking-widest uppercase text-center rounded-sm"
+            className="mt-2 px-5 py-3 text-sm font-bold border-2 border-[#FF6600] text-[#FF6600] hover:bg-[#FF6600] hover:text-white transition-all duration-300 tracking-widest uppercase text-center rounded-sm"
           >
             Book a Call
           </a>

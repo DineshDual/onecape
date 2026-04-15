@@ -1,43 +1,42 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
+const jakarta = Plus_Jakarta_Sans({
+  variable: "--font-jakarta",
   subsets: ["latin"],
-});
-
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
-  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
-  title: "OneCape — Brand Building Agency | Strategy. Content. Digital. Identity.",
+  title: "OneCape — Your Brand's Superpower | Digital Brand Building Agency",
   description:
-    "OneCape is a premium brand building agency specializing in brand strategy, content curation, digital marketing, and visual identity. We craft brands that command attention.",
+    "OneCape gives businesses the cape they need to thrive in the digital era. Brand identity, social media, SEO, performance campaigns, and more.",
   keywords: [
     "brand agency",
     "brand strategy",
-    "content curation",
     "digital marketing",
-    "visual identity",
-    "branding agency",
+    "social media strategy",
+    "SEO",
+    "GEO",
+    "performance campaigns",
+    "content creation",
+    "web design",
     "OneCape",
   ],
   openGraph: {
-    title: "OneCape — Brand Building Agency",
+    title: "OneCape — Your Brand's Superpower",
     description:
-      "Strategy. Content. Digital. Identity. We craft brands that command attention.",
+      "One Cape for your business. Brand building power for the digital era.",
     type: "website",
     locale: "en_US",
     siteName: "OneCape",
   },
   twitter: {
     card: "summary_large_image",
-    title: "OneCape — Brand Building Agency",
+    title: "OneCape — Your Brand's Superpower",
     description:
-      "Strategy. Content. Digital. Identity. We craft brands that command attention.",
+      "One Cape for your business. Brand building power for the digital era.",
   },
   robots: {
     index: true,
@@ -53,7 +52,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${playfair.variable} scroll-smooth antialiased`}
+      className={`${jakarta.variable} scroll-smooth antialiased`}
     >
       <body className="bg-[#0a0e1a] text-gray-100 font-sans min-h-screen">
         {children}

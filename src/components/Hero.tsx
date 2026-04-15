@@ -2,41 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 
-function AnimatedCounter({ target, suffix = "", prefix = "" }: { target: number; suffix?: string; prefix?: string }) {
-  const [count, setCount] = useState(0);
-  const ref = useRef<HTMLSpanElement>(null);
-  const hasAnimated = useRef(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !hasAnimated.current) {
-          hasAnimated.current = true;
-          const duration = 2000;
-          const start = Date.now();
-          const animate = () => {
-            const elapsed = Date.now() - start;
-            const progress = Math.min(elapsed / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3);
-            setCount(Math.floor(eased * target));
-            if (progress < 1) requestAnimationFrame(animate);
-          };
-          requestAnimationFrame(animate);
-        }
-      },
-      { threshold: 0.3 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [target]);
-
-  return (
-    <span ref={ref}>
-      {prefix}{count}{suffix}
-    </span>
-  );
-}
-
 export default function Hero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-white">
@@ -48,22 +13,22 @@ export default function Hero() {
         className="absolute inset-0 opacity-[0.04]"
         style={{
           backgroundImage:
-            "linear-gradient(#E63946 1px, transparent 1px), linear-gradient(90deg, #E63946 1px, transparent 1px)",
+            "linear-gradient(#FF6600 1px, transparent 1px), linear-gradient(90deg, #FF6600 1px, transparent 1px)",
           backgroundSize: "60px 60px",
         }}
       />
       
       {/* Multiple radial glows */}
-      <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] rounded-full bg-[#E63946]/[0.03] blur-[150px]" />
+      <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] rounded-full bg-[#FF6600]/[0.03] blur-[150px]" />
       <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] rounded-full bg-[#0D1B2A]/[0.02] blur-[120px]" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] rounded-full bg-[#E63946]/[0.015] blur-[200px]" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] rounded-full bg-[#FF6600]/[0.015] blur-[200px]" />
 
-      {/* Floating particles (CSS only) */}
+      {/* Floating particles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {[...Array(6)].map((_, i) => (
           <div
             key={i}
-            className="absolute w-1 h-1 rounded-full bg-[#E63946]/15"
+            className="absolute w-1 h-1 rounded-full bg-[#FF6600]/15"
             style={{
               left: `${15 + i * 14}%`,
               top: `${20 + (i % 3) * 25}%`,
@@ -75,71 +40,59 @@ export default function Hero() {
       </div>
 
       <div className="relative z-10 max-w-6xl mx-auto px-6 text-center pt-20">
-        {/* Trust Badge */}
-        <div className="animate-fade-up inline-flex items-center gap-2 px-5 py-2 mb-8 border border-[#E63946]/15 rounded-full bg-[#E63946]/[0.04] backdrop-blur-sm animate-float">
-          <div className="w-2 h-2 rounded-full bg-[#E63946] animate-pulse" />
-          <span className="text-[13px] text-[#E63946] tracking-widest uppercase font-semibold">
-            Trusted by 150+ brands worldwide
+        {/* New agency badge */}
+        <div className="animate-fade-up inline-flex items-center gap-2 px-5 py-2 mb-8 border border-[#FF6600]/15 rounded-full bg-[#FF6600]/[0.04] backdrop-blur-sm animate-float">
+          <div className="w-2 h-2 rounded-full bg-[#FF6600] animate-pulse" />
+          <span className="text-[13px] text-[#FF6600] tracking-widest uppercase font-semibold">
+            New agency. Bold vision.
           </span>
         </div>
 
         {/* Headline */}
         <h1 className="animate-fade-up delay-200 mt-6">
-          <span className="block text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] xl:text-[6.5rem] font-black leading-[0.9] tracking-tight text-[#0D1B2A]">
-            We Build Brands
+          <span className="block text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] xl:text-[6.5rem] font-extrabold leading-[0.9] tracking-tight text-[#0D1B2A]">
+            One Cape.
           </span>
-          <span className="block text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] xl:text-[6.5rem] font-black leading-[0.9] tracking-tight text-gradient-gold mt-2" style={{ fontFamily: "var(--font-playfair)" }}>
-            That Print Money
+          <span className="block text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] xl:text-[6.5rem] font-extrabold leading-[0.9] tracking-tight text-gradient-accent mt-2">
+            Unlimited Power.
           </span>
         </h1>
 
         {/* Subheadline */}
         <p className="animate-fade-up delay-400 max-w-2xl mx-auto text-lg sm:text-xl text-gray-500 leading-relaxed mt-8 mb-12">
-          Strategy, content, digital, and identity — unified under one cape.
-          <span className="text-[#E63946] font-medium"> We don&apos;t just make you look good. We make you money.</span>
+          The cape your business needs to thrive in the digital era.
+          <span className="text-[#FF6600] font-semibold"> Brand building that gives you the power to stand out, scale up, and own your space.</span>
         </p>
 
         {/* CTAs */}
         <div className="animate-fade-up delay-500 flex flex-col sm:flex-row items-center justify-center gap-4">
           <a
             href="#contact"
-            className="group px-8 py-4 bg-gradient-to-r from-[#E63946] to-[#C1121F] text-white font-bold tracking-wide text-sm transition-all duration-300 hover:shadow-[0_0_40px_rgba(230,57,70,0.3)] hover:scale-105 rounded-sm"
+            className="group px-8 py-4 bg-gradient-to-r from-[#FF6600] to-[#E55A00] text-white font-bold tracking-wide text-sm transition-all duration-300 hover:shadow-[0_0_40px_rgba(255,102,0,0.3)] hover:scale-105 rounded-sm"
           >
-            Get Your Free Brand Audit
+            Get Your Free Brand Consultation
             <span className="inline-block ml-2 transition-transform group-hover:translate-x-1">→</span>
           </a>
           <a
-            href="#results"
-            className="px-8 py-4 border border-gray-300 text-[#0D1B2A] hover:border-[#E63946]/50 hover:text-[#E63946] font-bold tracking-wide text-sm transition-all duration-300 rounded-sm"
+            href="#services"
+            className="px-8 py-4 border border-gray-300 text-[#0D1B2A] hover:border-[#FF6600]/50 hover:text-[#FF6600] font-bold tracking-wide text-sm transition-all duration-300 rounded-sm"
           >
-            See Our Results
+            Explore Services
           </a>
         </div>
 
-        {/* Animated Stats */}
-        <div className="animate-fade-up delay-700 mt-20 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10 max-w-3xl mx-auto">
-          {[
-            { value: 150, suffix: "+", label: "Brands Built", prefix: "" },
-            { value: 98, suffix: "%", label: "Retention Rate", prefix: "" },
-            { value: 2, suffix: "B+", label: "Revenue Generated", prefix: "$" },
-            { value: 12, suffix: "+", label: "Years Experience", prefix: "" },
-          ].map((stat) => (
-            <div key={stat.label} className="text-center group cursor-default">
-              <div className="text-3xl sm:text-4xl font-black text-[#E63946] group-hover:scale-110 transition-transform duration-300">
-                <AnimatedCounter target={stat.value} suffix={stat.suffix} prefix={stat.prefix} />
-              </div>
-              <div className="text-xs text-gray-400 tracking-wider uppercase mt-2 font-medium">
-                {stat.label}
-              </div>
-            </div>
-          ))}
+        {/* Aspirational line instead of fake stats */}
+        <div className="animate-fade-up delay-700 mt-20">
+          <p className="text-sm text-gray-400 tracking-wider uppercase font-medium">
+            Building brands from day one
+          </p>
         </div>
       </div>
 
       {/* Scroll indicator */}
       <div className="absolute bottom-10 left-1/2 -translate-x-1/2 opacity-40">
         <div className="w-5 h-8 rounded-full border border-gray-300 flex items-start justify-center p-1.5">
-          <div className="w-1 h-1.5 bg-[#E63946] rounded-full animate-bounce" />
+          <div className="w-1 h-1.5 bg-[#FF6600] rounded-full animate-bounce" />
         </div>
       </div>
     </section>

@@ -17,86 +17,44 @@ const values = [
   },
 ];
 
-const stats = [
-  {
-    value: "150+",
-    label: "Brands",
-    description: "From startups to market leaders, we've built brands across every vertical.",
-  },
-  {
-    value: "$2B+",
-    label: "Revenue Generated",
-    description: "Total client revenue attributed to our brand strategies and campaigns.",
-  },
-  {
-    value: "98%",
-    label: "Retention Rate",
-    description: "Our clients stay because the results keep compounding year after year.",
-  },
-  {
-    value: "12+",
-    label: "Years Experience",
-    description: "Over a decade of building brands that dominate their categories.",
-  },
-];
-
 export default function About() {
   return (
     <section id="about" className="py-24 sm:py-32 px-6 bg-[#F9FAFB]">
       <div className="max-w-7xl mx-auto">
-        {/* Why brands choose us - Stat cards */}
-        <div className="mb-20">
-          <span className="text-xs text-[#E63946] tracking-[0.3em] uppercase font-medium">
-            Why Brands Choose Us
-          </span>
-          <h2 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-black text-[#0D1B2A] leading-tight max-w-3xl">
-            Not another agency.{" "}
-            <span style={{ fontFamily: "var(--font-playfair)" }} className="text-gradient-gold italic">
-              Your brand&apos;s edge.
-            </span>
-          </h2>
-
-          <div className="mt-12 grid grid-cols-2 lg:grid-cols-4 gap-6">
-            {stats.map((stat) => (
-              <div
-                key={stat.label}
-                className="bg-white p-6 sm:p-8 rounded-lg border border-[#E5E5E5] shadow-sm transition-all duration-500 hover:translate-y-[-4px] hover:shadow-md text-center"
-              >
-                <div className="text-4xl sm:text-5xl font-black text-[#E63946] mb-2">{stat.value}</div>
-                <div className="text-sm text-[#0D1B2A] font-bold tracking-wider uppercase mb-3">{stat.label}</div>
-                <p className="text-gray-500 text-sm leading-relaxed">{stat.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
         {/* About section */}
         <div className="grid lg:grid-cols-2 gap-16 items-start">
-          {/* Left: About text */}
+          {/* Left: Mission & Vision */}
           <div>
-            <span className="text-xs text-[#E63946] tracking-[0.3em] uppercase font-medium">
-              Who We Are
+            <span className="text-xs text-[#FF6600] tracking-[0.3em] uppercase font-medium">
+              Why OneCape
             </span>
-            <h2 className="mt-4 text-3xl sm:text-4xl font-black text-[#0D1B2A] leading-tight">
-              We make brands{" "}
-              <span style={{ fontFamily: "var(--font-playfair)" }} className="text-gradient-gold italic">
-                impossible to ignore.
+            <h2 className="mt-4 text-3xl sm:text-4xl font-extrabold text-[#0D1B2A] leading-tight">
+              We believe every business{" "}
+              <span className="text-gradient-accent font-extrabold">
+                deserves a cape.
               </span>
             </h2>
             <p className="mt-6 text-gray-500 text-lg leading-relaxed">
-              OneCape was born from a simple observation: most brands don&apos;t fail because
-              of bad products — they fail because they&apos;re invisible. We exist to make
-              sure that never happens to our clients.
+              Every superhero needs a cape — that one thing that gives them the
+              power to show up, stand out, and make an impact. That&apos;s exactly
+              what we are for businesses.
             </p>
             <p className="mt-4 text-gray-500 text-lg leading-relaxed">
-              We&apos;re a tight-knit team of strategists, creatives, and digital operators
-              who&apos;ve built brands from garage startups to market leaders. We don&apos;t
-              do cookie-cutter. Every engagement is custom, every brand is unique, and
-              every result matters.
+              OneCape exists because we believe the digital era has leveled the
+              playing field — but only for those who show up with a powerful brand.
+              Most businesses don&apos;t fail because of bad products. They fail
+              because they&apos;re invisible. We make sure that never happens.
             </p>
             <p className="mt-4 text-gray-500 text-lg leading-relaxed">
-              The cape? It&apos;s what you put on when you&apos;re ready to show up differently.
-              Bolder. Sharper. Unstoppable. That&apos;s what we bring to every project.
+              We&apos;re a team of strategists, creatives, and digital operators
+              passionate about empowering brands. From startups launching for the
+              first time to established businesses reinventing themselves — we
+              put the cape on and help you fly.
+            </p>
+            <p className="mt-4 text-gray-500 text-lg leading-relaxed">
+              The cape isn&apos;t just a metaphor. It&apos;s what you put on when
+              you&apos;re ready to show up differently. Bolder. Sharper. Unstoppable.
+              That&apos;s what we bring to every project.
             </p>
           </div>
 
@@ -107,7 +65,7 @@ export default function About() {
                 key={value.title}
                 className="bg-white p-6 rounded-lg border border-[#E5E5E5] shadow-sm transition-all duration-500 hover:translate-y-[-2px] hover:shadow-md"
               >
-                <span className="text-3xl font-black text-[#E63946]/15">
+                <span className="text-3xl font-extrabold text-[#FF6600]/15">
                   {String(idx + 1).padStart(2, "0")}
                 </span>
                 <h3 className="mt-2 text-[#0D1B2A] font-bold tracking-wide">{value.title}</h3>

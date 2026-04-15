@@ -21,7 +21,7 @@ export default function Footer() {
         {/* Newsletter */}
         <div className="mb-16 max-w-xl">
           <h4 className="text-white font-bold text-lg mb-2">Stay ahead of the curve</h4>
-          <p className="text-gray-400 text-sm mb-4">Brand insights, strategy tips, and case studies — delivered monthly.</p>
+          <p className="text-gray-400 text-sm mb-4">Brand insights, strategy tips, and digital trends — delivered monthly.</p>
           <form onSubmit={handleSubscribe} className="flex gap-3">
             <input
               type="email"
@@ -29,11 +29,11 @@ export default function Footer() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="your@email.com"
               required
-              className="flex-1 px-4 py-3 bg-[#1A1A2E]/60 border border-gray-700/50 rounded-sm text-white text-sm placeholder-gray-500 focus:border-[#E63946] focus:outline-none transition-all"
+              className="flex-1 px-4 py-3 bg-[#1A1A2E]/60 border border-gray-700/50 rounded-sm text-white text-sm placeholder-gray-500 focus:border-[#FF6600] focus:outline-none transition-all"
             />
             <button
               type="submit"
-              className="px-6 py-3 bg-gradient-to-r from-[#E63946] to-[#C1121F] text-white font-bold text-sm tracking-wide transition-all duration-300 hover:shadow-[0_0_20px_rgba(230,57,70,0.3)] rounded-sm whitespace-nowrap"
+              className="px-6 py-3 bg-gradient-to-r from-[#FF6600] to-[#E55A00] text-white font-bold text-sm tracking-wide transition-all duration-300 hover:shadow-[0_0_20px_rgba(255,102,0,0.3)] rounded-sm whitespace-nowrap"
             >
               {subscribed ? "✓ Subscribed" : "Subscribe"}
             </button>
@@ -44,7 +44,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="sm:col-span-2 lg:col-span-1">
             <div className="flex items-center gap-2.5 mb-4">
-              <div className="w-8 h-8 bg-gradient-to-br from-[#E63946] to-[#C1121F] rounded-md flex items-center justify-center">
+              <div className="w-8 h-8 bg-gradient-to-br from-[#FF6600] to-[#E55A00] rounded-md flex items-center justify-center">
                 <svg
                   viewBox="0 0 32 32"
                   fill="none"
@@ -58,12 +58,11 @@ export default function Footer() {
                 </svg>
               </div>
               <span className="text-lg font-bold tracking-wider text-white">
-                One<span className="text-[#E63946]">Cape</span>
+                One<span className="text-[#FF6600]">Cape</span>
               </span>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed max-w-xs">
-              Building brands that command attention. Strategy, content, digital, identity —
-              unified under one cape.
+              One Cape for your business. Empowering brands to thrive in the digital era.
             </p>
           </div>
 
@@ -71,10 +70,12 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-semibold text-sm tracking-wide mb-4">Services</h4>
             <ul className="space-y-2 text-sm text-gray-400">
-              <li><a href="#services" className="hover:text-[#E63946] transition-colors">Brand Strategy</a></li>
-              <li><a href="#services" className="hover:text-[#E63946] transition-colors">Content Curation</a></li>
-              <li><a href="#services" className="hover:text-[#E63946] transition-colors">Digital Marketing</a></li>
-              <li><a href="#services" className="hover:text-[#E63946] transition-colors">Visual Identity</a></li>
+              <li><a href="#services" className="hover:text-[#FF6600] transition-colors">Brand Identity & Strategy</a></li>
+              <li><a href="#services" className="hover:text-[#FF6600] transition-colors">Social Media Strategy</a></li>
+              <li><a href="#services" className="hover:text-[#FF6600] transition-colors">SEO & GEO</a></li>
+              <li><a href="#services" className="hover:text-[#FF6600] transition-colors">Performance Campaigns</a></li>
+              <li><a href="#services" className="hover:text-[#FF6600] transition-colors">Content Creation</a></li>
+              <li><a href="#services" className="hover:text-[#FF6600] transition-colors">Web Design & Dev</a></li>
             </ul>
           </div>
 
@@ -82,11 +83,10 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-semibold text-sm tracking-wide mb-4">Company</h4>
             <ul className="space-y-2 text-sm text-gray-400">
-              <li><a href="#about" className="hover:text-[#E63946] transition-colors">About</a></li>
-              <li><a href="#portfolio" className="hover:text-[#E63946] transition-colors">Work</a></li>
-              <li><a href="#results" className="hover:text-[#E63946] transition-colors">Results</a></li>
-              <li><a href="#testimonials" className="hover:text-[#E63946] transition-colors">Clients</a></li>
-              <li><a href="#contact" className="hover:text-[#E63946] transition-colors">Contact</a></li>
+              <li><a href="#about" className="hover:text-[#FF6600] transition-colors">About</a></li>
+              <li><a href="#portfolio" className="hover:text-[#FF6600] transition-colors">Capabilities</a></li>
+              <li><a href="#process" className="hover:text-[#FF6600] transition-colors">Process</a></li>
+              <li><a href="#contact" className="hover:text-[#FF6600] transition-colors">Contact</a></li>
             </ul>
           </div>
 
@@ -94,10 +94,10 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-semibold text-sm tracking-wide mb-4">Connect</h4>
             <ul className="space-y-2 text-sm text-gray-400">
-              <li><a href="#" className="hover:text-[#E63946] transition-colors">LinkedIn</a></li>
-              <li><a href="#" className="hover:text-[#E63946] transition-colors">Instagram</a></li>
-              <li><a href="#" className="hover:text-[#E63946] transition-colors">Twitter / X</a></li>
-              <li><a href="#contact" className="hover:text-[#E63946] transition-colors">hello@onecape.agency</a></li>
+              <li><a href="#" className="hover:text-[#FF6600] transition-colors">LinkedIn</a></li>
+              <li><a href="#" className="hover:text-[#FF6600] transition-colors">Instagram</a></li>
+              <li><a href="#" className="hover:text-[#FF6600] transition-colors">Twitter / X</a></li>
+              <li><a href="#contact" className="hover:text-[#FF6600] transition-colors">hello@onecape.agency</a></li>
             </ul>
           </div>
         </div>
@@ -108,7 +108,7 @@ export default function Footer() {
             © {currentYear} OneCape. All rights reserved.
           </p>
           <p className="text-xs text-gray-600">
-            Strategy. Content. Digital. Identity.
+            One Cape. Unlimited Power.
           </p>
         </div>
       </div>

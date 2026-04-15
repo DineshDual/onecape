@@ -3,7 +3,6 @@ import Hero from "@/components/Hero";
 import SocialProofBar from "@/components/SocialProofBar";
 import Services from "@/components/Services";
 import Process from "@/components/Process";
-import ResultsGrid from "@/components/ResultsGrid";
 import Portfolio from "@/components/Portfolio";
 import Testimonials from "@/components/Testimonials";
 import About from "@/components/About";
@@ -19,29 +18,26 @@ export default function Home() {
       <main>
         <Hero />
         <SocialProofBar />
-        <div className="divider-gold max-w-6xl mx-auto" />
+        <div className="divider-accent max-w-6xl mx-auto" />
         <ScrollReveal>
           <Services />
         </ScrollReveal>
         <ScrollReveal>
           <Process />
         </ScrollReveal>
-        <div className="divider-gold max-w-6xl mx-auto" />
-        <ScrollReveal>
-          <ResultsGrid />
-        </ScrollReveal>
+        <div className="divider-accent max-w-6xl mx-auto" />
         <ScrollReveal>
           <Portfolio />
         </ScrollReveal>
-        <div className="divider-gold max-w-6xl mx-auto" />
+        <div className="divider-accent max-w-6xl mx-auto" />
         <ScrollReveal>
           <Testimonials />
         </ScrollReveal>
-        <div className="divider-gold max-w-6xl mx-auto" />
+        <div className="divider-accent max-w-6xl mx-auto" />
         <ScrollReveal>
           <About />
         </ScrollReveal>
-        <div className="divider-gold max-w-6xl mx-auto" />
+        <div className="divider-accent max-w-6xl mx-auto" />
         <ScrollReveal>
           <Contact />
         </ScrollReveal>
