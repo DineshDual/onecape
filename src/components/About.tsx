@@ -17,20 +17,70 @@ const values = [
   },
 ];
 
+const stats = [
+  {
+    value: "150+",
+    label: "Brands",
+    description: "From startups to market leaders, we've built brands across every vertical.",
+  },
+  {
+    value: "$2B+",
+    label: "Revenue Generated",
+    description: "Total client revenue attributed to our brand strategies and campaigns.",
+  },
+  {
+    value: "98%",
+    label: "Retention Rate",
+    description: "Our clients stay because the results keep compounding year after year.",
+  },
+  {
+    value: "12+",
+    label: "Years Experience",
+    description: "Over a decade of building brands that dominate their categories.",
+  },
+];
+
 export default function About() {
   return (
     <section id="about" className="py-24 sm:py-32 px-6">
       <div className="max-w-7xl mx-auto">
+        {/* Why brands choose us - Stat cards */}
+        <div className="mb-20">
+          <span className="text-xs text-[#d4a853] tracking-[0.3em] uppercase font-medium">
+            Why Brands Choose Us
+          </span>
+          <h2 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight max-w-3xl">
+            Not another agency.{" "}
+            <span style={{ fontFamily: "var(--font-playfair)" }} className="text-gradient-gold italic">
+              Your brand&apos;s edge.
+            </span>
+          </h2>
+
+          <div className="mt-12 grid grid-cols-2 lg:grid-cols-4 gap-6">
+            {stats.map((stat) => (
+              <div
+                key={stat.label}
+                className="glass-card p-6 sm:p-8 rounded-lg gold-border-hover transition-all duration-500 hover:translate-y-[-4px] text-center"
+              >
+                <div className="text-4xl sm:text-5xl font-black text-[#d4a853] mb-2">{stat.value}</div>
+                <div className="text-sm text-white font-bold tracking-wider uppercase mb-3">{stat.label}</div>
+                <p className="text-gray-400 text-sm leading-relaxed">{stat.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* About section */}
         <div className="grid lg:grid-cols-2 gap-16 items-start">
           {/* Left: About text */}
           <div>
             <span className="text-xs text-[#d4a853] tracking-[0.3em] uppercase font-medium">
               Who We Are
             </span>
-            <h2 className="mt-4 text-4xl sm:text-5xl font-bold text-white leading-tight">
-              Not another agency.{" "}
+            <h2 className="mt-4 text-3xl sm:text-4xl font-black text-white leading-tight">
+              We make brands{" "}
               <span style={{ fontFamily: "var(--font-playfair)" }} className="text-gradient-gold italic">
-                Your brand&apos;s edge.
+                impossible to ignore.
               </span>
             </h2>
             <p className="mt-6 text-gray-400 text-lg leading-relaxed">
@@ -55,9 +105,9 @@ export default function About() {
             {values.map((value, idx) => (
               <div
                 key={value.title}
-                className="glass-card p-6 transition-all duration-500 hover:translate-y-[-2px]"
+                className="glass-card p-6 rounded-lg transition-all duration-500 hover:translate-y-[-2px] gold-border-hover"
               >
-                <span className="text-3xl font-bold text-[#d4a853]/20">
+                <span className="text-3xl font-black text-[#d4a853]/20">
                   {String(idx + 1).padStart(2, "0")}
                 </span>
                 <h3 className="mt-2 text-white font-bold tracking-wide">{value.title}</h3>

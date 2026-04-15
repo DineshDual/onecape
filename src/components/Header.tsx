@@ -14,8 +14,9 @@ export default function Header() {
 
   const navLinks = [
     { label: "Services", href: "#services" },
+    { label: "Process", href: "#process" },
+    { label: "Results", href: "#results" },
     { label: "Work", href: "#portfolio" },
-    { label: "Testimonials", href: "#testimonials" },
     { label: "About", href: "#about" },
     { label: "Contact", href: "#contact" },
   ];
@@ -24,22 +25,25 @@ export default function Header() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
-          ? "bg-[#0a0e1a]/90 backdrop-blur-xl border-b border-[#d4a853]/10 py-3"
+          ? "bg-[#0a0e1a]/95 backdrop-blur-xl py-3 shadow-[0_1px_0_rgba(212,168,83,0.15)]"
           : "bg-transparent py-6"
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         {/* Logo */}
-        <a href="#" className="flex items-center gap-2 group">
-          <div className="w-8 h-8 bg-gradient-to-br from-[#d4a853] to-[#b8912e] rounded-sm flex items-center justify-center transition-transform group-hover:scale-110">
+        <a href="#" className="flex items-center gap-2.5 group">
+          <div className="w-9 h-9 bg-gradient-to-br from-[#d4a853] to-[#b8912e] rounded-md flex items-center justify-center transition-transform group-hover:scale-110 shadow-lg shadow-[#d4a853]/10">
             <svg
-              viewBox="0 0 24 24"
+              viewBox="0 0 32 32"
               fill="none"
               className="w-5 h-5 text-[#0a0e1a]"
               stroke="currentColor"
-              strokeWidth={2.5}
+              strokeWidth={2}
             >
-              <path d="M12 2L3 20h18L12 2z" />
+              {/* Shield/cape shape */}
+              <path d="M16 4L6 10v8c0 6 10 10 10 10s10-4 10-10v-8L16 4z" fill="currentColor" opacity="0.3" />
+              <path d="M16 4L6 10v8c0 6 10 10 10 10s10-4 10-10v-8L16 4z" />
+              <path d="M12 16l3 3 5-6" strokeWidth={2.5} />
             </svg>
           </div>
           <span className="text-xl font-bold tracking-wider">
@@ -48,28 +52,28 @@ export default function Header() {
         </a>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden lg:flex items-center gap-7">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="text-sm text-gray-400 hover:text-[#d4a853] transition-colors duration-300 tracking-wide uppercase"
+              className="text-[13px] text-gray-400 hover:text-[#d4a853] transition-colors duration-300 tracking-widest uppercase font-medium"
             >
               {link.label}
             </a>
           ))}
           <a
             href="#contact"
-            className="ml-2 px-5 py-2 text-sm font-semibold border border-[#d4a853] text-[#d4a853] hover:bg-[#d4a853] hover:text-[#0a0e1a] transition-all duration-300 tracking-wide"
+            className="ml-3 px-5 py-2.5 text-[13px] font-bold border-2 border-[#d4a853] text-[#d4a853] hover:bg-[#d4a853] hover:text-[#0a0e1a] transition-all duration-300 tracking-widest uppercase rounded-sm"
           >
-            Start a Project
+            Book a Call
           </a>
         </nav>
 
         {/* Mobile menu button */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="md:hidden text-gray-400 hover:text-[#d4a853] transition-colors"
+          className="lg:hidden text-gray-400 hover:text-[#d4a853] transition-colors p-1"
           aria-label="Toggle menu"
         >
           <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -82,15 +86,20 @@ export default function Header() {
         </button>
       </div>
 
+      {/* Gold line on scroll */}
+      {scrolled && (
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#d4a853]/30 to-transparent" />
+      )}
+
       {/* Mobile Nav */}
       {menuOpen && (
-        <nav className="md:hidden bg-[#0a0e1a]/95 backdrop-blur-xl border-t border-[#d4a853]/10 px-6 py-6 flex flex-col gap-4">
+        <nav className="lg:hidden bg-[#0a0e1a]/98 backdrop-blur-xl border-t border-[#d4a853]/10 px-6 py-6 flex flex-col gap-4">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
               onClick={() => setMenuOpen(false)}
-              className="text-gray-400 hover:text-[#d4a853] transition-colors tracking-wide uppercase text-sm"
+              className="text-gray-400 hover:text-[#d4a853] transition-colors tracking-widest uppercase text-sm font-medium"
             >
               {link.label}
             </a>
@@ -98,9 +107,9 @@ export default function Header() {
           <a
             href="#contact"
             onClick={() => setMenuOpen(false)}
-            className="mt-2 px-5 py-2 text-sm font-semibold border border-[#d4a853] text-[#d4a853] hover:bg-[#d4a853] hover:text-[#0a0e1a] transition-all duration-300 tracking-wide text-center"
+            className="mt-2 px-5 py-3 text-sm font-bold border-2 border-[#d4a853] text-[#d4a853] hover:bg-[#d4a853] hover:text-[#0a0e1a] transition-all duration-300 tracking-widest uppercase text-center rounded-sm"
           >
-            Start a Project
+            Book a Call
           </a>
         </nav>
       )}

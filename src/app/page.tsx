@@ -1,12 +1,16 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
+import SocialProofBar from "@/components/SocialProofBar";
 import Services from "@/components/Services";
+import Process from "@/components/Process";
+import ResultsGrid from "@/components/ResultsGrid";
 import Portfolio from "@/components/Portfolio";
 import Testimonials from "@/components/Testimonials";
 import About from "@/components/About";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
+import FloatingCTA from "@/components/FloatingCTA";
 
 export default function Home() {
   return (
@@ -14,11 +18,18 @@ export default function Home() {
       <Header />
       <main>
         <Hero />
+        <SocialProofBar />
         <div className="divider-gold max-w-6xl mx-auto" />
         <ScrollReveal>
           <Services />
         </ScrollReveal>
+        <ScrollReveal>
+          <Process />
+        </ScrollReveal>
         <div className="divider-gold max-w-6xl mx-auto" />
+        <ScrollReveal>
+          <ResultsGrid />
+        </ScrollReveal>
         <ScrollReveal>
           <Portfolio />
         </ScrollReveal>
@@ -36,6 +47,7 @@ export default function Home() {
         </ScrollReveal>
       </main>
       <Footer />
+      <FloatingCTA />
     </>
   );
 }

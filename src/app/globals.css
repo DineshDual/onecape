@@ -27,8 +27,12 @@ html {
   background: var(--color-gold-dark);
   border-radius: 3px;
 }
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gold);
+}
 
-/* Animations */
+/* ============ Animations ============ */
+
 @keyframes fade-up {
   from {
     opacity: 0;
@@ -76,6 +80,63 @@ html {
   }
 }
 
+@keyframes hero-gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+@keyframes scroll-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes count-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes gradient-border {
+  0%, 100% {
+    border-color: rgba(212, 168, 83, 0.2);
+  }
+  50% {
+    border-color: rgba(212, 168, 83, 0.5);
+  }
+}
+
 .animate-fade-up {
   animation: fade-up 0.8s ease-out forwards;
 }
@@ -96,6 +157,24 @@ html {
   animation: gold-glow 3s ease-in-out infinite;
 }
 
+.animate-hero-gradient {
+  background-size: 400% 400%;
+  animation: hero-gradient 15s ease infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  background-size: 200% 100%;
+  animation: shimmer 3s linear infinite;
+}
+
+.animate-marquee {
+  animation: scroll-marquee 30s linear infinite;
+}
+
 .delay-100 { animation-delay: 0.1s; }
 .delay-200 { animation-delay: 0.2s; }
 .delay-300 { animation-delay: 0.3s; }
@@ -103,6 +182,29 @@ html {
 .delay-500 { animation-delay: 0.5s; }
 .delay-600 { animation-delay: 0.6s; }
 .delay-700 { animation-delay: 0.7s; }
+.delay-800 { animation-delay: 0.8s; }
+.delay-900 { animation-delay: 0.9s; }
+
+/* ============ Reduced Motion ============ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .animate-float,
+  .animate-hero-gradient,
+  .animate-shimmer,
+  .animate-marquee {
+    animation: none !important;
+  }
+}
+
+/* ============ Utility Classes ============ */
 
 /* Gradient text */
 .text-gradient-gold {
@@ -135,9 +237,206 @@ html {
   background: rgba(26, 32, 53, 0.6);
   backdrop-filter: blur(12px);
   border: 1px solid rgba(212, 168, 83, 0.1);
+  transition: all 0.5s ease;
 }
 
 .glass-card:hover {
   border-color: rgba(212, 168, 83, 0.3);
   background: rgba(26, 32, 53, 0.8);
+}
+
+/* Gold gradient border on hover */
+.gold-border-hover {
+  position: relative;
+  border: 1px solid rgba(212, 168, 83, 0.1);
+  transition: all 0.5s ease;
+}
+
+.gold-border-hover::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(212, 168, 83, 0), rgba(212, 168, 83, 0.5), rgba(212, 168, 83, 0));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.gold-border-hover:hover::before {
+  opacity: 1;
+}
+
+/* Hero background gradient animation */
+.hero-animated-bg {
+  background: linear-gradient(
+    -45deg,
+    #0a0e1a,
+    #0f1528,
+    #111d35,
+    #0e1225,
+    #0a0e1a,
+    #131a2e,
+    #0a0e1a
+  );
+  background-size: 400% 400%;
+  animation: hero-gradient 15s ease infinite;
+}
+
+/* Floating label input */
+.float-label {
+  position: relative;
+}
+
+.float-label input,
+.float-label textarea,
+.float-label select {
+  background: transparent;
+  border: 1px solid rgba(107, 114, 128, 0.3);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.float-label input:focus,
+.float-label textarea:focus,
+.float-label select:focus {
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 1px rgba(212, 168, 83, 0.2);
+  outline: none;
+}
+
+.float-label label {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(156, 163, 175, 0.6);
+  transition: all 0.3s ease;
+  pointer-events: none;
+  font-size: 0.875rem;
+}
+
+.float-label input:focus ~ label,
+.float-label input:not(:placeholder-shown) ~ label,
+.float-label textarea:focus ~ label,
+.float-label textarea:not(:placeholder-shown) ~ label {
+  top: 0;
+  transform: translateY(-50%);
+  font-size: 0.75rem;
+  color: var(--color-gold);
+  background: var(--color-navy);
+  padding: 0 0.25rem;
+}
+
+/* Process connector line */
+.process-line {
+  position: relative;
+}
+
+.process-line::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -50%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-gold), transparent);
+  opacity: 0.3;
+}
+
+/* Masonry layout */
+.masonry-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+@media (min-width: 768px) {
+  .masonry-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.masonry-grid .masonry-item:nth-child(1) {
+  grid-row: span 2;
+}
+
+.masonry-grid .masonry-item:nth-child(4) {
+  grid-column: span 2;
+}
+
+/* Sticky CTA bar mobile */
+.sticky-cta-mobile {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 40;
+  padding: 0.75rem 1rem;
+  background: rgba(10, 14, 26, 0.95);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(212, 168, 83, 0.2);
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+}
+
+.sticky-cta-mobile.visible {
+  transform: translateY(0);
+}
+
+/* Scroll to top */
+.scroll-top-btn {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 35;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: var(--color-gold);
+  color: var(--color-navy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(1rem);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 4px 20px rgba(212, 168, 83, 0.3);
+}
+
+.scroll-top-btn.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scroll-top-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 30px rgba(212, 168, 83, 0.4);
+}
+
+/* Smooth section transitions */
+section {
+  position: relative;
+}
+
+/* Growth table row hover */
+.growth-row {
+  transition: all 0.3s ease;
+}
+
+.growth-row:hover {
+  background: rgba(212, 168, 83, 0.05);
+  transform: translateX(4px);
+}
+
+/* Logo marquee container */
+.logo-marquee-container {
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
 }

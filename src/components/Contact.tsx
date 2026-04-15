@@ -2,6 +2,12 @@
 
 import { useState } from "react";
 
+const trustIndicators = [
+  { icon: "✓", text: "Free brand audit" },
+  { icon: "⚡", text: "Response within 24 hours" },
+  { icon: "🔒", text: "No commitment required" },
+];
+
 export default function Contact() {
   const [formData, setFormData] = useState({
     name: "",
@@ -19,29 +25,50 @@ export default function Contact() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // In production, this would submit to an API
     alert("Thank you! We'll be in touch within 24 hours.");
   };
 
   return (
-    <section id="contact" className="py-24 sm:py-32 px-6">
+    <section id="contact" className="py-24 sm:py-32 px-6 bg-[#0c1020]">
       <div className="max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-16">
           {/* Left: CTA */}
           <div className="flex flex-col justify-center">
             <span className="text-xs text-[#d4a853] tracking-[0.3em] uppercase font-medium">
-              Start a Project
+              Get Started
             </span>
-            <h2 className="mt-4 text-4xl sm:text-5xl font-bold text-white leading-tight">
-              Ready to put on{" "}
+            <h2 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight">
+              Get Your Free{" "}
               <span style={{ fontFamily: "var(--font-playfair)" }} className="text-gradient-gold italic">
-                the cape?
+                Brand Audit
               </span>
             </h2>
             <p className="mt-6 text-gray-400 text-lg leading-relaxed">
               Tell us about your brand, your ambitions, and your timeline. We&apos;ll
-              get back to you within 24 hours with a clear path forward.
+              get back to you within 24 hours with a clear path forward — no strings attached.
             </p>
+
+            {/* Trust indicators */}
+            <div className="mt-10 space-y-4">
+              {trustIndicators.map((item) => (
+                <div key={item.text} className="flex items-center gap-3">
+                  <span className="text-[#d4a853] text-lg">{item.icon}</span>
+                  <span className="text-gray-300 font-medium">{item.text}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Social proof near form */}
+            <div className="mt-10 inline-flex items-center gap-3 px-5 py-3 bg-[#d4a853]/[0.06] border border-[#d4a853]/10 rounded-full">
+              <div className="flex -space-x-2">
+                {["AM", "SC", "DO", "+"].map((initials, i) => (
+                  <div key={i} className="w-8 h-8 rounded-full bg-[#d4a853]/10 border-2 border-[#0a0e1a] flex items-center justify-center text-[#d4a853] text-[10px] font-bold">
+                    {initials}
+                  </div>
+                ))}
+              </div>
+              <span className="text-sm text-gray-400">Join <span className="text-[#d4a853] font-bold">150+</span> brands who started here</span>
+            </div>
 
             <div className="mt-10 space-y-4">
               <div className="flex items-center gap-3 text-gray-400">
@@ -63,10 +90,7 @@ export default function Contact() {
           {/* Right: Form */}
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="grid sm:grid-cols-2 gap-5">
-              <div>
-                <label htmlFor="name" className="block text-sm text-gray-400 mb-2">
-                  Name *
-                </label>
+              <div className="float-label relative">
                 <input
                   type="text"
                   id="name"
@@ -74,14 +98,12 @@ export default function Contact() {
                   required
                   value={formData.name}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 bg-[#111827] border border-gray-800 rounded-sm text-white placeholder-gray-600 focus:border-[#d4a853] focus:outline-none transition-colors"
-                  placeholder="Your name"
+                  placeholder=" "
+                  className="w-full px-4 py-4 bg-[#111827]/60 border border-gray-800/50 rounded-lg text-white placeholder-transparent focus:border-[#d4a853] focus:outline-none transition-all"
                 />
+                <label htmlFor="name" className="text-gray-500">Name *</label>
               </div>
-              <div>
-                <label htmlFor="email" className="block text-sm text-gray-400 mb-2">
-                  Email *
-                </label>
+              <div className="float-label relative">
                 <input
                   type="email"
                   id="email"
@@ -89,49 +111,45 @@ export default function Contact() {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 bg-[#111827] border border-gray-800 rounded-sm text-white placeholder-gray-600 focus:border-[#d4a853] focus:outline-none transition-colors"
-                  placeholder="you@company.com"
+                  placeholder=" "
+                  className="w-full px-4 py-4 bg-[#111827]/60 border border-gray-800/50 rounded-lg text-white placeholder-transparent focus:border-[#d4a853] focus:outline-none transition-all"
                 />
+                <label htmlFor="email" className="text-gray-500">Email *</label>
               </div>
             </div>
             <div className="grid sm:grid-cols-2 gap-5">
-              <div>
-                <label htmlFor="company" className="block text-sm text-gray-400 mb-2">
-                  Company
-                </label>
+              <div className="float-label relative">
                 <input
                   type="text"
                   id="company"
                   name="company"
                   value={formData.company}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 bg-[#111827] border border-gray-800 rounded-sm text-white placeholder-gray-600 focus:border-[#d4a853] focus:outline-none transition-colors"
-                  placeholder="Company name"
+                  placeholder=" "
+                  className="w-full px-4 py-4 bg-[#111827]/60 border border-gray-800/50 rounded-lg text-white placeholder-transparent focus:border-[#d4a853] focus:outline-none transition-all"
                 />
+                <label htmlFor="company" className="text-gray-500">Company</label>
               </div>
-              <div>
-                <label htmlFor="budget" className="block text-sm text-gray-400 mb-2">
-                  Budget Range
-                </label>
+              <div className="relative">
                 <select
                   id="budget"
                   name="budget"
                   value={formData.budget}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 bg-[#111827] border border-gray-800 rounded-sm text-white focus:border-[#d4a853] focus:outline-none transition-colors appearance-none"
+                  className="w-full px-4 py-4 bg-[#111827]/60 border border-gray-800/50 rounded-lg text-white focus:border-[#d4a853] focus:outline-none transition-all appearance-none cursor-pointer"
                 >
-                  <option value="">Select range</option>
+                  <option value="">Budget Range</option>
                   <option value="10k-25k">$10K – $25K</option>
                   <option value="25k-50k">$25K – $50K</option>
                   <option value="50k-100k">$50K – $100K</option>
                   <option value="100k+">$100K+</option>
                 </select>
+                <svg className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                </svg>
               </div>
             </div>
-            <div>
-              <label htmlFor="message" className="block text-sm text-gray-400 mb-2">
-                Tell us about your project *
-              </label>
+            <div className="float-label relative">
               <textarea
                 id="message"
                 name="message"
@@ -139,15 +157,16 @@ export default function Contact() {
                 rows={5}
                 value={formData.message}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-[#111827] border border-gray-800 rounded-sm text-white placeholder-gray-600 focus:border-[#d4a853] focus:outline-none transition-colors resize-none"
-                placeholder="What's your vision? What does your brand need?"
+                placeholder=" "
+                className="w-full px-4 py-4 bg-[#111827]/60 border border-gray-800/50 rounded-lg text-white placeholder-transparent focus:border-[#d4a853] focus:outline-none transition-all resize-none"
               />
+              <label htmlFor="message" className="text-gray-500">Tell us about your project *</label>
             </div>
             <button
               type="submit"
-              className="w-full sm:w-auto px-10 py-3.5 bg-gradient-to-r from-[#d4a853] to-[#b8912e] text-[#0a0e1a] font-bold tracking-wide text-sm transition-all duration-300 hover:shadow-[0_0_30px_rgba(212,168,83,0.3)] hover:scale-[1.02]"
+              className="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-[#d4a853] to-[#b8912e] text-[#0a0e1a] font-black tracking-wide text-sm transition-all duration-300 hover:shadow-[0_0_40px_rgba(212,168,83,0.35)] hover:scale-[1.02] rounded-sm"
             >
-              Send Your Brief
+              Get Your Free Brand Audit →
             </button>
           </form>
         </div>
