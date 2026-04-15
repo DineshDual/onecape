@@ -36,7 +36,7 @@ export default function FloatingCTA() {
       <div className={`sticky-cta-mobile lg:hidden ${showMobileBar ? 'visible' : ''}`}>
         <a
           href="#contact"
-          className="block w-full px-6 py-3.5 bg-gradient-to-r from-[#d4a853] to-[#b8912e] text-[#0a0e1a] font-black text-sm tracking-wide text-center rounded-sm transition-all hover:shadow-[0_0_30px_rgba(212,168,83,0.3)]"
+          className="block w-full px-6 py-3.5 bg-gradient-to-r from-[#E63946] to-[#C1121F] text-white font-black text-sm tracking-wide text-center rounded-sm transition-all hover:shadow-[0_0_30px_rgba(230,57,70,0.3)]"
         >
           Get Free Brand Audit →
         </a>

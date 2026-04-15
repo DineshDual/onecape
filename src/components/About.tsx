@@ -42,14 +42,14 @@ const stats = [
 
 export default function About() {
   return (
-    <section id="about" className="py-24 sm:py-32 px-6">
+    <section id="about" className="py-24 sm:py-32 px-6 bg-[#F9FAFB]">
       <div className="max-w-7xl mx-auto">
         {/* Why brands choose us - Stat cards */}
         <div className="mb-20">
-          <span className="text-xs text-[#d4a853] tracking-[0.3em] uppercase font-medium">
+          <span className="text-xs text-[#E63946] tracking-[0.3em] uppercase font-medium">
             Why Brands Choose Us
           </span>
-          <h2 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight max-w-3xl">
+          <h2 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-black text-[#0D1B2A] leading-tight max-w-3xl">
             Not another agency.{" "}
             <span style={{ fontFamily: "var(--font-playfair)" }} className="text-gradient-gold italic">
               Your brand&apos;s edge.
@@ -60,11 +60,11 @@ export default function About() {
             {stats.map((stat) => (
               <div
                 key={stat.label}
-                className="glass-card p-6 sm:p-8 rounded-lg gold-border-hover transition-all duration-500 hover:translate-y-[-4px] text-center"
+                className="bg-white p-6 sm:p-8 rounded-lg border border-[#E5E5E5] shadow-sm transition-all duration-500 hover:translate-y-[-4px] hover:shadow-md text-center"
               >
-                <div className="text-4xl sm:text-5xl font-black text-[#d4a853] mb-2">{stat.value}</div>
-                <div className="text-sm text-white font-bold tracking-wider uppercase mb-3">{stat.label}</div>
-                <p className="text-gray-400 text-sm leading-relaxed">{stat.description}</p>
+                <div className="text-4xl sm:text-5xl font-black text-[#E63946] mb-2">{stat.value}</div>
+                <div className="text-sm text-[#0D1B2A] font-bold tracking-wider uppercase mb-3">{stat.label}</div>
+                <p className="text-gray-500 text-sm leading-relaxed">{stat.description}</p>
               </div>
             ))}
           </div>
@@ -74,27 +74,27 @@ export default function About() {
         <div className="grid lg:grid-cols-2 gap-16 items-start">
           {/* Left: About text */}
           <div>
-            <span className="text-xs text-[#d4a853] tracking-[0.3em] uppercase font-medium">
+            <span className="text-xs text-[#E63946] tracking-[0.3em] uppercase font-medium">
               Who We Are
             </span>
-            <h2 className="mt-4 text-3xl sm:text-4xl font-black text-white leading-tight">
+            <h2 className="mt-4 text-3xl sm:text-4xl font-black text-[#0D1B2A] leading-tight">
               We make brands{" "}
               <span style={{ fontFamily: "var(--font-playfair)" }} className="text-gradient-gold italic">
                 impossible to ignore.
               </span>
             </h2>
-            <p className="mt-6 text-gray-400 text-lg leading-relaxed">
+            <p className="mt-6 text-gray-500 text-lg leading-relaxed">
               OneCape was born from a simple observation: most brands don&apos;t fail because
               of bad products — they fail because they&apos;re invisible. We exist to make
               sure that never happens to our clients.
             </p>
-            <p className="mt-4 text-gray-400 text-lg leading-relaxed">
+            <p className="mt-4 text-gray-500 text-lg leading-relaxed">
               We&apos;re a tight-knit team of strategists, creatives, and digital operators
               who&apos;ve built brands from garage startups to market leaders. We don&apos;t
               do cookie-cutter. Every engagement is custom, every brand is unique, and
               every result matters.
             </p>
-            <p className="mt-4 text-gray-400 text-lg leading-relaxed">
+            <p className="mt-4 text-gray-500 text-lg leading-relaxed">
               The cape? It&apos;s what you put on when you&apos;re ready to show up differently.
               Bolder. Sharper. Unstoppable. That&apos;s what we bring to every project.
             </p>
@@ -105,13 +105,13 @@ export default function About() {
             {values.map((value, idx) => (
               <div
                 key={value.title}
-                className="glass-card p-6 rounded-lg transition-all duration-500 hover:translate-y-[-2px] gold-border-hover"
+                className="bg-white p-6 rounded-lg border border-[#E5E5E5] shadow-sm transition-all duration-500 hover:translate-y-[-2px] hover:shadow-md"
               >
-                <span className="text-3xl font-black text-[#d4a853]/20">
+                <span className="text-3xl font-black text-[#E63946]/15">
                   {String(idx + 1).padStart(2, "0")}
                 </span>
-                <h3 className="mt-2 text-white font-bold tracking-wide">{value.title}</h3>
-                <p className="mt-2 text-gray-400 text-sm leading-relaxed">
+                <h3 className="mt-2 text-[#0D1B2A] font-bold tracking-wide">{value.title}</h3>
+                <p className="mt-2 text-gray-500 text-sm leading-relaxed">
                   {value.description}
                 </p>
               </div>

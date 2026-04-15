@@ -55,20 +55,20 @@ const services = [
 
 export default function Services() {
   return (
-    <section id="services" className="py-24 sm:py-32 px-6">
+    <section id="services" className="py-24 sm:py-32 px-6 bg-white">
       <div className="max-w-7xl mx-auto">
         {/* Section header */}
         <div className="max-w-2xl mb-16">
-          <span className="text-xs text-[#d4a853] tracking-[0.3em] uppercase font-medium">
+          <span className="text-xs text-[#E63946] tracking-[0.3em] uppercase font-medium">
             What We Do
           </span>
-          <h2 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight">
+          <h2 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-black text-[#0D1B2A] leading-tight">
             Four pillars.{" "}
             <span style={{ fontFamily: "var(--font-playfair)" }} className="text-gradient-gold italic">
               One cape.
             </span>
           </h2>
-          <p className="mt-4 text-gray-400 text-lg leading-relaxed">
+          <p className="mt-4 text-gray-500 text-lg leading-relaxed">
             Every great brand stands on a foundation of strategy, content, reach, and identity.
             We master all four.
           </p>
@@ -83,28 +83,28 @@ export default function Services() {
               className="group gold-border-hover lg:col-span-2 lg:row-span-2 glass-card p-8 sm:p-10 lg:p-12 transition-all duration-500 hover:translate-y-[-4px] rounded-lg relative overflow-hidden"
             >
               {/* Background accent */}
-              <div className="absolute top-0 right-0 w-64 h-64 bg-[#d4a853]/[0.03] rounded-full blur-[100px] group-hover:bg-[#d4a853]/[0.06] transition-all duration-700" />
+              <div className="absolute top-0 left-0 w-2 h-full bg-[#E63946] rounded-l-lg" />
               
               <div className="relative">
                 <div className="flex items-start justify-between mb-8">
-                  <div className="p-4 bg-[#d4a853]/10 rounded-xl text-[#d4a853] transition-all duration-300 group-hover:bg-[#d4a853]/20 group-hover:scale-110">
+                  <div className="p-4 bg-[#E63946]/10 rounded-xl text-[#E63946] transition-all duration-300 group-hover:bg-[#E63946]/20 group-hover:scale-110">
                     {service.icon}
                   </div>
-                  <span className="text-5xl font-black text-gray-800 group-hover:text-[#d4a853]/20 transition-colors duration-500">
+                  <span className="text-5xl font-black text-gray-200 group-hover:text-[#E63946]/15 transition-colors duration-500">
                     {service.id}
                   </span>
                 </div>
-                <h3 className="text-2xl lg:text-3xl font-black text-white mb-4 tracking-wide">
+                <h3 className="text-2xl lg:text-3xl font-black text-[#0D1B2A] mb-4 tracking-wide">
                   {service.title}
                 </h3>
-                <p className="text-gray-400 leading-relaxed text-lg mb-8">{service.description}</p>
-                <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#d4a853]/10 border border-[#d4a853]/20 rounded-full">
-                  <svg className="w-4 h-4 text-[#d4a853]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <p className="text-gray-500 leading-relaxed text-lg mb-8">{service.description}</p>
+                <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#E63946]/8 border border-[#E63946]/15 rounded-full">
+                  <svg className="w-4 h-4 text-[#E63946]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
                   </svg>
-                  <span className="text-sm text-[#d4a853] font-bold">{service.metric}</span>
+                  <span className="text-sm text-[#E63946] font-bold">{service.metric}</span>
                 </div>
-                <div className="mt-8 flex items-center gap-2 text-[#d4a853] text-sm font-bold opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-0 group-hover:translate-x-1">
+                <div className="mt-8 flex items-center gap-2 text-[#E63946] text-sm font-bold opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-0 group-hover:translate-x-1">
                   <span>Learn more</span>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
@@ -120,28 +120,26 @@ export default function Services() {
               key={service.id}
               className="group gold-border-hover glass-card p-8 transition-all duration-500 hover:translate-y-[-4px] rounded-lg relative overflow-hidden"
             >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-[#d4a853]/[0.02] rounded-full blur-[60px] group-hover:bg-[#d4a853]/[0.05] transition-all duration-700" />
-              
               <div className="relative">
                 <div className="flex items-start justify-between mb-6">
-                  <div className="p-3 bg-[#d4a853]/10 rounded-lg text-[#d4a853] transition-all duration-300 group-hover:bg-[#d4a853]/20 group-hover:scale-105">
+                  <div className="p-3 bg-[#E63946]/10 rounded-lg text-[#E63946] transition-all duration-300 group-hover:bg-[#E63946]/20 group-hover:scale-105">
                     {service.icon}
                   </div>
-                  <span className="text-3xl font-black text-gray-800 group-hover:text-[#d4a853]/20 transition-colors duration-500">
+                  <span className="text-3xl font-black text-gray-200 group-hover:text-[#E63946]/15 transition-colors duration-500">
                     {service.id}
                   </span>
                 </div>
-                <h3 className="text-xl font-bold text-white mb-3 tracking-wide">
+                <h3 className="text-xl font-bold text-[#0D1B2A] mb-3 tracking-wide">
                   {service.title}
                 </h3>
-                <p className="text-gray-400 leading-relaxed text-[15px] mb-5">{service.description}</p>
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#d4a853]/10 border border-[#d4a853]/20 rounded-full">
-                  <svg className="w-3.5 h-3.5 text-[#d4a853]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <p className="text-gray-500 leading-relaxed text-[15px] mb-5">{service.description}</p>
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#E63946]/8 border border-[#E63946]/15 rounded-full">
+                  <svg className="w-3.5 h-3.5 text-[#E63946]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
                   </svg>
-                  <span className="text-xs text-[#d4a853] font-bold">{service.metric}</span>
+                  <span className="text-xs text-[#E63946] font-bold">{service.metric}</span>
                 </div>
-                <div className="mt-5 flex items-center gap-2 text-[#d4a853] text-sm font-bold opacity-0 group-hover:opacity-100 transition-all duration-300">
+                <div className="mt-5 flex items-center gap-2 text-[#E63946] text-sm font-bold opacity-0 group-hover:opacity-100 transition-all duration-300">
                   <span>Learn more</span>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
