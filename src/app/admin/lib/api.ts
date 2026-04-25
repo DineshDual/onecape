@@ -1,176 +1,109 @@
-// OneCape API Client — centralized, with error handling + loading
+// OneCape Admin API Client — Full
+
 const API_URL = 'https://13.126.110.0/api';
-const API_KEY = 'onecape2026';
+const AUTH = 'Bearer onecape2026';
 
-export interface Client {
-  _id?: string;
-  id: string;
-  name: string;
-  website: string;
-  industry: string;
-  status: 'active' | 'pending' | 'paused' | 'completed';
-  onboardedAt: string;
-  monthlyValue: number;
-  services: string[];
-  notes: string;
-  tasks: number;
-  completedTasks: number;
-}
-
-export interface Task {
-  _id?: string;
-  id: string;
-  title: string;
-  description: string;
-  status: 'backlog' | 'in-progress' | 'review' | 'done';
-  priority: 'high' | 'medium' | 'low';
-  client: string;
-  category: string;
-  createdAt: string;
-  dueDate: string;
-  completedAt?: string;
-}
-
-export interface Lead {
-  _id?: string;
-  id: string;
-  name: string;
-  email: string;
-  phone: string;
-  service: string;
-  budget: number;
-  urgency: string;
-  source: string;
-  score: number;
-  status: string;
-  notes: string;
-  createdAt: string;
-}
-
-export interface Competitor {
-  _id?: string;
-  id: string;
-  name: string;
-  website: string;
-  strengths: string;
-  weaknesses: string;
-  threat: string;
-}
-
-export interface Experiment {
-  id: string;
-  hypothesis: string;
-  metric: string;
-  status: 'running' | 'won' | 'lost';
-  createdAt: string;
-}
-
-export interface AnalysisResult {
-  industry: string;
-  needs: string[];
-  plan: { title: string; tasks: string[] }[];
-}
-
-// Map MongoDB _id to id
-function mapId<T extends { _id?: string; id?: string }>(item: T): any {
-  return { ...item, id: item._id || item.id };
-}
-
-function mapIds<T extends { _id?: string; id?: string }>(items: T[]): any[] {
-  return items.map(mapId);
-}
-
-export async function apiCall<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
-  const res = await fetch(`${API_URL}${endpoint}`, {
-    ...options,
-    headers: {
-      'Authorization': `Bearer ${API_KEY}`,
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
+async function apiFetch(path: string, opts: RequestInit = {}) {
+  const res = await fetch(`${API_URL}${path}`, {
+    ...opts,
+    headers: { 'Authorization': AUTH, 'Content-Type': 'application/json', ...opts.headers },
   });
-  if (!res.ok) {
-    const err = await res.text();
-    throw new Error(`API ${res.status}: ${err}`);
-  }
+  if (!res.ok) throw new Error(`API ${res.status}: ${await res.text().catch(() => 'Unknown')}`);
   return res.json();
 }
 
-// ─── Clients ───
-export async function getClients(): Promise<Client[]> {
-  const clients = await apiCall<any[]>('/api/clients');
-  return mapIds(clients);
+// ─── Types ───
+export interface Client {
+  _id: string; name: string; website?: string; industry?: string;
+  status: 'active' | 'pending' | 'paused' | 'completed';
+  onboardedAt?: string; monthlyValue?: number; services?: string[];
+  notes?: string; tasks?: number; completedTasks?: number;
+  brandColor?: string; brandColor2?: string; logo?: string; tagline?: string;
+  phone?: string; email?: string; address?: string;
+  socialInstagram?: string; socialFacebook?: string; socialYoutube?: string; socialLinkedin?: string;
+  serviceCatalog?: { name: string; description: string; startingPrice: number }[];
+  portfolio?: { title: string; category: string; beforeImage?: string; afterImage?: string; description?: string; completedAt?: string }[];
+  createdAt?: string; updatedAt?: string;
 }
 
-export async function createClient(data: Partial<Client>): Promise<Client> {
-  const { id, _id, ...body } = data as any;
-  const client = await apiCall<any>('/api/clients', { method: 'POST', body: JSON.stringify(body) });
-  return mapId(client);
+export interface Project {
+  _id: string; client: string | { _id: string; name: string };
+  title: string; description?: string;
+  type: 'interior' | 'exterior' | 'farming' | 'marketing' | 'branding' | 'other';
+  phase: 'enquiry' | 'design' | 'quote' | 'execution' | 'handover' | 'completed';
+  budget: number; budgetSpent?: number; location?: string;
+  startDate?: string; deadline?: string; completedAt?: string;
+  milestones?: { title: string; dueDate?: string; completed: boolean; completedAt?: string }[];
+  photos?: { url: string; caption?: string; phase?: string; uploadedAt?: string }[];
+  notes?: string; priority: 'high' | 'medium' | 'low';
+  createdAt?: string; updatedAt?: string;
 }
 
-export async function updateClient(id: string, data: Partial<Client>): Promise<Client> {
-  const client = await apiCall<any>(`/api/clients/${id}`, { method: 'PUT', body: JSON.stringify(data) });
-  return mapId(client);
+export interface Task {
+  _id: string; title: string; description?: string;
+  status: 'backlog' | 'in-progress' | 'review' | 'done';
+  priority: 'high' | 'medium' | 'low';
+  client?: string; project?: string; category?: string;
+  dueDate?: string; completedAt?: string; assignee?: string;
+  createdAt?: string;
 }
 
-export async function deleteClient(id: string): Promise<void> {
-  await apiCall(`/api/clients/${id}`, { method: 'DELETE' });
+export interface Lead {
+  _id: string; client?: string | { _id: string; name: string };
+  name: string; email?: string; phone?: string;
+  service?: string; budget?: number;
+  urgency: 'low' | 'medium' | 'high';
+  source: 'website' | 'instagram' | 'whatsapp' | 'referral' | 'walk-in' | 'ads' | 'phone' | 'other';
+  score?: number;
+  status: 'new' | 'contacted' | 'qualified' | 'proposal' | 'negotiation' | 'won' | 'lost';
+  notes?: string; projectType?: string; location?: string; nextFollowUp?: string;
+  createdAt?: string;
 }
 
-// ─── Tasks ───
-export async function getTasks(clientId?: string): Promise<Task[]> {
-  const url = clientId ? `/api/tasks?client=${clientId}` : '/api/tasks';
-  const tasks = await apiCall<any[]>(url);
-  return mapIds(tasks).map((t: any) => ({ ...t, client: t.client?._id || t.client }));
+export interface Keyword {
+  _id: string; client: string; keyword: string;
+  volume?: number; difficulty: 'low' | 'medium' | 'high';
+  intent: 'informational' | 'transactional' | 'navigational';
+  currentRank?: number; targetRank?: number; url?: string;
 }
 
-export async function createTask(data: Partial<Task>): Promise<Task> {
-  const { id, _id, ...body } = data as any;
-  const task = await apiCall<any>('/api/tasks', { method: 'POST', body: JSON.stringify(body) });
-  return mapId(task);
+export interface Stats {
+  clientCount: number; projectCount: number; leadCount: number;
+  activeLeads: number; totalRevenue: number; phaseCounts: Record<string, number>;
 }
 
-export async function updateTask(id: string, data: Partial<Task>): Promise<Task> {
-  const task = await apiCall<any>(`/api/tasks/${id}`, { method: 'PUT', body: JSON.stringify(data) });
-  return mapId(task);
-}
+// ─── API Functions ───
+export const getClients = () => apiFetch('/clients') as Promise<Client[]>;
+export const getClient = (id: string) => apiFetch(`/clients/${id}`) as Promise<Client>;
+export const createClient = (data: Partial<Client>) => apiFetch('/clients', { method: 'POST', body: JSON.stringify(data) }) as Promise<Client>;
+export const updateClient = (id: string, data: Partial<Client>) => apiFetch(`/clients/${id}`, { method: 'PUT', body: JSON.stringify(data) }) as Promise<Client>;
+export const deleteClient = (id: string) => apiFetch(`/clients/${id}`, { method: 'DELETE' });
 
-export async function removeTask(id: string): Promise<void> {
-  await apiCall(`/api/tasks/${id}`, { method: 'DELETE' });
-}
+export const getProjects = (clientId?: string) => apiFetch(`/projects${clientId ? `?client=${clientId}` : ''}`) as Promise<Project[]>;
+export const createProject = (data: Partial<Project>) => apiFetch('/projects', { method: 'POST', body: JSON.stringify(data) }) as Promise<Project>;
+export const updateProject = (id: string, data: Partial<Project>) => apiFetch(`/projects/${id}`, { method: 'PUT', body: JSON.stringify(data) }) as Promise<Project>;
+export const deleteProject = (id: string) => apiFetch(`/projects/${id}`, { method: 'DELETE' });
 
-// ─── Leads ───
-export async function getLeads(clientId: string): Promise<Lead[]> {
-  const leads = await apiCall<any[]>(`/api/leads/${clientId}`);
-  return mapIds(leads);
-}
+export const getTasks = (clientId?: string) => apiFetch(`/tasks${clientId ? `?client=${clientId}` : ''}`) as Promise<Task[]>;
+export const createTask = (data: Partial<Task>) => apiFetch('/tasks', { method: 'POST', body: JSON.stringify(data) }) as Promise<Task>;
+export const updateTask = (id: string, data: Partial<Task>) => apiFetch(`/tasks/${id}`, { method: 'PUT', body: JSON.stringify(data) }) as Promise<Task>;
+export const deleteTask = (id: string) => apiFetch(`/tasks/${id}`, { method: 'DELETE' });
 
-export async function createLead(clientId: string, data: Partial<Lead>): Promise<Lead> {
-  const lead = await apiCall<any>(`/api/leads/${clientId}`, { method: 'POST', body: JSON.stringify(data) });
-  return mapId(lead);
-}
+export const getLeads = () => apiFetch('/leads') as Promise<Lead[]>;
+export const getLeadsByClient = (clientId: string) => apiFetch(`/leads/${clientId}`) as Promise<Lead[]>;
+export const createLead = (clientId: string, data: Partial<Lead>) => apiFetch(`/leads/${clientId}`, { method: 'POST', body: JSON.stringify(data) }) as Promise<Lead>;
 
-// ─── Competitors ───
-export async function getCompetitors(clientId: string): Promise<Competitor[]> {
-  const data = await apiCall<{ competitors: any[] }>(`/api/competitors/${clientId}`);
-  return mapIds(data.competitors || []);
-}
+export const getKeywords = (clientId: string) => apiFetch(`/keywords/${clientId}`) as Promise<Keyword[]>;
+export const createKeyword = (clientId: string, data: Partial<Keyword>) => apiFetch(`/keywords/${clientId}`, { method: 'POST', body: JSON.stringify(data) }) as Promise<Keyword>;
+export const deleteKeyword = (id: string) => apiFetch(`/keywords/${id}`, { method: 'DELETE' });
 
-export async function addCompetitor(clientId: string, data: Partial<Competitor>): Promise<Competitor> {
-  const comp = await apiCall<any>(`/api/competitors/${clientId}`, { method: 'POST', body: JSON.stringify(data) });
-  return mapId(comp);
-}
+export const getStats = () => apiFetch('/stats') as Promise<Stats>;
+export const getGrowth = (clientId: string) => apiFetch(`/growth/${clientId}`) as Promise<any[]>;
+export const getCompetitors = (clientId: string) => apiFetch(`/competitors/${clientId}`) as Promise<any>;
+export const getContent = (clientId: string) => apiFetch(`/content/${clientId}`) as Promise<any[]>;
 
-// ─── Analysis ───
-export async function analyzeWebsite(url: string, industry?: string): Promise<AnalysisResult> {
-  return apiCall<AnalysisResult>('/api/analyze', { method: 'POST', body: JSON.stringify({ url, industry }) });
-}
+export const generateContent = (type: string, prompt: string, clientId?: string) =>
+  apiFetch('/generate', { method: 'POST', body: JSON.stringify({ type, prompt, client: clientId }) }) as Promise<{ content: string }>;
 
-// ─── Content Generation ───
-export async function generatePoster(data: { title: string; subtitle?: string; images: string[]; clientName: string }): Promise<{ url: string }> {
-  return apiCall('/api/content/poster', { method: 'POST', body: JSON.stringify(data) });
-}
-
-export async function generateVideo(data: { beforeImage: string; afterImage: string; duration?: number }): Promise<{ url: string }> {
-  return apiCall('/api/content/video', { method: 'POST', body: JSON.stringify(data) });
-}
+export const analyzeWebsite = (url: string, industry?: string) =>
+  apiFetch('/analyze', { method: 'POST', body: JSON.stringify({ url, industry }) });

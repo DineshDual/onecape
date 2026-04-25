@@ -3,7 +3,6 @@
 import { useState, useEffect, createContext, useContext, ReactNode } from 'react';
 import * as api from '../lib/api';
 
-// ─── App Context ───
 interface AppState {
   clients: api.Client[];
   tasks: api.Task[];
@@ -26,7 +25,7 @@ export function useApp() {
 export function AppProvider({ children }: { children: ReactNode }) {
   const [clients, setClients] = useState<api.Client[]>([]);
   const [tasks, setTasks] = useState<api.Task[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const refresh = async () => {
@@ -42,7 +41,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setLoading(false);
   };
 
-  useEffect(() => { refresh(); }, []);
+  // Only fetch on client side, not during SSG
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      refresh();
+    }
+  }, []);
 
   return (
     <AppContext.Provider value={{ clients, tasks, loading, error, refresh, setClients, setTasks, setError }}>

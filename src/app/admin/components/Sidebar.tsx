@@ -15,21 +15,20 @@ export default function Sidebar({ page, setPage }: { page: string; setPage: (p: 
       { id: 'clients', label: `All Clients (${clients.length})`, icon: '👥' },
     ]},
     { section: 'Work', items: [
-      { id: 'tasks', label: 'Task Board', icon: '📋' },
+      { id: 'tasks', label: 'Project Pipeline', icon: '🚧' },
+      { id: 'leads', label: 'Lead Pipeline', icon: '🎯' },
       { id: 'content', label: 'Content Studio', icon: '✍️' },
-      { id: 'seo', label: 'Keyword Finder', icon: '🔍' },
+      { id: 'seo', label: 'SEO Dashboard', icon: '🔍' },
       { id: 'social', label: 'Social Media', icon: '📱' },
     ]},
     { section: 'Intelligence', items: [
       { id: 'growth', label: 'Growth Tracker', icon: '📈' },
-      { id: 'leads', label: 'Lead Ranker', icon: '🎯' },
       { id: 'competitors', label: 'Market Intel', icon: '🕵️' },
     ]},
   ];
 
   return (
     <>
-      {/* Mobile header */}
       <div className="mobile-header">
         <button className="menu-btn" onClick={() => setCollapsed(!collapsed)}>☰</button>
         <span className="menu-logo">OneCape</span>
@@ -49,9 +48,13 @@ export default function Sidebar({ page, setPage }: { page: string; setPage: (p: 
             <div key={group.section}>
               <div className="nav-section">{group.section}</div>
               {group.items.map(item => (
-                <a key={item.id} href="#" className={page === item.id ? 'active' : ''}
-                   onClick={e => { e.preventDefault(); setPage(item.id); setCollapsed(false); }}>
-                  {item.icon} {!collapsed && item.label}
+                <a 
+                  key={item.id} 
+                  href="#" 
+                  className={page === item.id ? 'active' : ''}
+                  onClick={e => { e.preventDefault(); setPage(item.id); setCollapsed(false); }}
+                >
+                  <span>{item.icon}</span> <span className="nav-label">{!collapsed && item.label}</span>
                 </a>
               ))}
             </div>

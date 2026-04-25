@@ -1,165 +1,145 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useApp } from './AppProvider';
-import * as api from '../lib/api';
-import { PageHeader, StatusBadge, EmptyState } from './Dashboard';
+import { getProjects, createProject, updateProject, deleteProject, getClients, createTask, getTasks, updateTask } from '../lib/api';
 
-const COLUMNS: { id: api.Task['status']; label: string; color: string }[] = [
-  { id: 'backlog', label: 'Backlog', color: 'var(--oc-gray-500)' },
-  { id: 'in-progress', label: 'In Progress', color: 'var(--oc-blue)' },
-  { id: 'review', label: 'Review', color: 'var(--oc-yellow)' },
-  { id: 'done', label: 'Done', color: 'var(--oc-green)' },
-];
+const PHASES = ['enquiry', 'design', 'quote', 'execution', 'handover', 'completed'] as const;
+const PHASE_ICONS: Record<string, string> = { enquiry: '📋', design: '🎨', quote: '💰', execution: '🔨', handover: '✅', completed: '🏠' };
+const PHASE_COLORS: Record<string, string> = { enquiry: 'border-blue-400 bg-blue-50', design: 'border-purple-400 bg-purple-50', quote: 'border-orange-400 bg-orange-50', execution: 'border-red-400 bg-red-50', handover: 'border-yellow-400 bg-yellow-50', completed: 'border-green-400 bg-green-50' };
 
 export default function TaskBoard() {
-  const { clients, tasks, setTasks } = useApp();
-  const [showForm, setShowForm] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const [filter, setFilter] = useState('');
-  const [form, setForm] = useState({ title: '', description: '', priority: 'medium' as const, client: '', category: 'SEO' });
+  const { clients } = useApp();
+  const [projects, setProjects] = useState<any[]>([]);
+  const [tasks, setTasks] = useState<any[]>([]);
+  const [showNewProject, setShowNewProject] = useState(false);
+  const [newProject, setNewProject] = useState({ title: '', type: 'interior' as string, client: '', budget: 0, location: '', deadline: '', priority: 'medium' as string });
 
-  const filtered = filter ? tasks.filter(t => t.client === filter) : tasks;
-
-  const addTask = async () => {
-    if (!form.title) return;
-    setSaving(true);
-    try {
-      const saved = await api.createTask({
-        ...form, status: 'backlog',
-        createdAt: new Date().toISOString().split('T')[0], dueDate: '',
-      });
-      setTasks(prev => [...prev, saved]);
-      setForm({ title: '', description: '', priority: 'medium', client: clients[0]?.id || '', category: 'SEO' });
-      setShowForm(false);
-    } catch (e: any) { alert(e.message); }
-    setSaving(false);
+  useEffect(() => { loadData(); }, []);
+  const loadData = async () => {
+    const [p, t] = await Promise.all([getProjects(), getTasks()]);
+    setProjects(p); setTasks(t);
   };
 
-  const moveTask = async (taskId: string, newStatus: api.Task['status']) => {
-    const task = tasks.find(t => t.id === taskId);
-    if (!task || task.status === newStatus) return;
-    // Optimistic update
-    setTasks(prev => prev.map(t => t.id === taskId ? { ...t, status: newStatus, completedAt: newStatus === 'done' ? new Date().toISOString().split('T')[0] : undefined } : t));
-    try {
-      await api.updateTask(taskId, { status: newStatus, completedAt: newStatus === 'done' ? new Date().toISOString().split('T')[0] : undefined } as any);
-    } catch {
-      // Revert on failure
-      setTasks(prev => prev.map(t => t.id === taskId ? { ...t, status: task.status } : t));
+  const handleCreateProject = async () => {
+    if (!newProject.title) return;
+    await createProject({ ...newProject, phase: 'enquiry' });
+    setNewProject({ title: '', type: 'interior', client: '', budget: 0, location: '', deadline: '', priority: 'medium' });
+    setShowNewProject(false);
+    loadData();
+  };
+
+  const movePhase = async (id: string, currentPhase: string) => {
+    const idx = PHASES.indexOf(currentPhase as any);
+    if (idx < PHASES.length - 1) {
+      await updateProject(id, { phase: PHASES[idx + 1] });
+      loadData();
     }
   };
 
-  const deleteTask = async (taskId: string) => {
-    if (!confirm('Delete this task?')) return;
-    setTasks(prev => prev.filter(t => t.id !== taskId));
-    try { await api.removeTask(taskId); } catch { /* already removed from UI */ }
+  const deleteProj = async (id: string) => {
+    if (confirm('Delete this project?')) {
+      await deleteProject(id);
+      loadData();
+    }
   };
 
-  const categories = ['SEO', 'Content', 'Social', 'Conversion', 'Local SEO', 'Research', 'Reporting', 'Design', 'Dev', 'Strategy'];
-  const priorityColors: Record<string, string> = { high: 'var(--oc-red)', medium: 'var(--oc-yellow)', low: 'var(--oc-gray-500)' };
-
   return (
-    <div>
-      <PageHeader title="Task Board" subtitle={`${tasks.length} total tasks`} action={
-        <div style={{ display: 'flex', gap: 8 }}>
-          <select value={filter} onChange={e => setFilter(e.target.value)} className="filter-select">
-            <option value="">All Clients</option>
-            {clients.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-          </select>
-          <button className="btn btn-primary" onClick={() => setShowForm(!showForm)}>
-            {showForm ? '✕ Cancel' : '+ New Task'}
-          </button>
-        </div>
-      } />
+    <div className="taskboard">
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-lg font-bold">Project Pipeline</h2>
+        <button onClick={() => setShowNewProject(true)} className="btn btn-primary">+ New Project</button>
+      </div>
 
-      {showForm && (
-        <div className="card" style={{ marginBottom: 24 }}>
-          <div className="form-grid-2">
-            <div className="form-group">
-              <label>Task Title *</label>
-              <input value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} placeholder="What needs to be done?" />
-            </div>
-            <div className="form-group">
-              <label>Client</label>
-              <select value={form.client} onChange={e => setForm({ ...form, client: e.target.value })}>
-                {clients.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-              </select>
-            </div>
-            <div className="form-group">
-              <label>Priority</label>
-              <select value={form.priority} onChange={e => setForm({ ...form, priority: e.target.value as any })}>
-                <option value="high">🔴 High</option>
-                <option value="medium">🟡 Medium</option>
-                <option value="low">🔵 Low</option>
-              </select>
-            </div>
-            <div className="form-group">
-              <label>Category</label>
-              <select value={form.category} onChange={e => setForm({ ...form, category: e.target.value })}>
-                {categories.map(c => <option key={c} value={c}>{c}</option>)}
-              </select>
-            </div>
+      {showNewProject && (
+        <div className="card mb-6 p-6">
+          <h3 className="font-bold mb-4">New Project</h3>
+          <div className="grid grid-cols-2 gap-4">
+            <input type="text" placeholder="Project title" value={newProject.title} onChange={e => setNewProject({...newProject, title: e.target.value})} className="p-2 border rounded-lg text-sm" />
+            <select value={newProject.type} onChange={e => setNewProject({...newProject, type: e.target.value})} className="p-2 border rounded-lg text-sm">
+              <option value="interior">Interior</option>
+              <option value="exterior">Exterior</option>
+              <option value="farming">Farming</option>
+              <option value="marketing">Marketing</option>
+              <option value="branding">Branding</option>
+              <option value="other">Other</option>
+            </select>
+            <select value={newProject.client} onChange={e => setNewProject({...newProject, client: e.target.value})} className="p-2 border rounded-lg text-sm">
+              <option value="">Select client</option>
+              {clients.map((c: any) => <option key={c._id} value={c._id}>{c.name}</option>)}
+            </select>
+            <input type="number" placeholder="Budget" value={newProject.budget || ''} onChange={e => setNewProject({...newProject, budget: Number(e.target.value)})} className="p-2 border rounded-lg text-sm" />
+            <input type="text" placeholder="Location" value={newProject.location} onChange={e => setNewProject({...newProject, location: e.target.value})} className="p-2 border rounded-lg text-sm" />
+            <input type="date" value={newProject.deadline} onChange={e => setNewProject({...newProject, deadline: e.target.value})} className="p-2 border rounded-lg text-sm" />
+            <select value={newProject.priority} onChange={e => setNewProject({...newProject, priority: e.target.value})} className="p-2 border rounded-lg text-sm">
+              <option value="high">High</option>
+              <option value="medium">Medium</option>
+              <option value="low">Low</option>
+            </select>
           </div>
-          <div className="form-group">
-            <label>Description</label>
-            <textarea rows={2} value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} placeholder="Details..." />
+          <div className="flex gap-3 mt-4">
+            <button onClick={handleCreateProject} className="btn btn-primary">Create</button>
+            <button onClick={() => setShowNewProject(false)} className="btn btn-outline">Cancel</button>
           </div>
-          <button className="btn btn-primary" onClick={addTask} disabled={!form.title || saving}>
-            {saving ? 'Creating...' : 'Create Task'}
-          </button>
         </div>
       )}
 
-      {/* Kanban Board */}
-      <div className="kanban-board">
-        {COLUMNS.map(col => {
-          const colTasks = filtered.filter(t => t.status === col.id);
+      {/* Kanban columns */}
+      <div className="grid grid-cols-6 gap-3 overflow-x-auto">
+        {PHASES.map(phase => {
+          const phaseProjects = projects.filter(p => p.phase === phase);
           return (
-            <div key={col.id} className="kanban-column">
-              <div className="kanban-header" style={{ borderBottomColor: col.color }}>
-                <span style={{ color: col.color, fontWeight: 700 }}>{col.label}</span>
-                <span className="kanban-count">{colTasks.length}</span>
+            <div key={phase} className={`rounded-lg border-2 ${PHASE_COLORS[phase]} p-3 min-h-[300px]`}>
+              <div className="flex justify-between items-center mb-3">
+                <h3 className="font-bold text-sm capitalize">{PHASE_ICONS[phase]} {phase}</h3>
+                <span className="text-xs bg-white rounded-full px-2 py-0.5 font-bold">{phaseProjects.length}</span>
               </div>
-              <div className="kanban-body">
-                {colTasks.length === 0 && <p className="kanban-empty">No tasks</p>}
-                {colTasks.map(task => {
-                  const client = clients.find(c => c.id === task.client);
-                  return (
-                    <div key={task.id} className="kanban-card">
-                      <div className="kanban-card-header">
-                        <span className="priority-dot" style={{ background: priorityColors[task.priority] }} />
-                        <span style={{ fontSize: 11, color: 'var(--oc-gray-500)' }}>{task.category}</span>
-                      </div>
-                      <h4>{task.title}</h4>
-                      {task.description && <p>{task.description}</p>}
-                      <div className="kanban-card-footer">
-                        <span style={{ fontSize: 11, color: 'var(--oc-gray-500)' }}>{client?.name || '—'}</span>
-                        <div className="kanban-actions">
-                          {col.id !== 'backlog' && <button onClick={() => moveTask(task.id, prev(col.id))} title="Move left">◀</button>}
-                          {col.id !== 'done' && <button onClick={() => moveTask(task.id, next(col.id))} title="Move right">▶</button>}
-                          <button onClick={() => deleteTask(task.id)} title="Delete" style={{ color: 'var(--oc-red)' }}>✕</button>
-                        </div>
-                      </div>
+              <div className="space-y-2">
+                {phaseProjects.map(p => (
+                  <div key={p._id} className="bg-white rounded-lg p-3 shadow-sm border border-gray-100">
+                    <div className="font-semibold text-sm">{p.title}</div>
+                    <div className="text-xs text-gray-500 mt-1">
+                      {typeof p.client === 'object' ? p.client?.name : 'No client'} · ₹{p.budget || 0}
                     </div>
-                  );
-                })}
+                    <div className="flex gap-1 mt-2">
+                      {p.priority === 'high' && <span className="text-xs bg-red-100 text-red-600 px-1.5 py-0.5 rounded">High</span>}
+                      {p.priority === 'medium' && <span className="text-xs bg-yellow-100 text-yellow-600 px-1.5 py-0.5 rounded">Med</span>}
+                      {p.priority === 'low' && <span className="text-xs bg-green-100 text-green-600 px-1.5 py-0.5 rounded">Low</span>}
+                    </div>
+                    <div className="flex gap-2 mt-2">
+                      {phase !== 'completed' && (
+                        <button onClick={() => movePhase(p._id, phase)} className="text-xs text-orange-500 hover:underline">→ Next</button>
+                      )}
+                      <button onClick={() => deleteProj(p._id)} className="text-xs text-red-400 hover:underline">Delete</button>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           );
         })}
       </div>
+
+      {/* Internal Tasks */}
+      <div className="mt-8">
+        <h2 className="text-lg font-bold mb-4">Internal Tasks</h2>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          {['backlog', 'in-progress', 'review', 'done'].map(status => {
+            const statusTasks = tasks.filter(t => t.status === status);
+            return (
+              <div key={status} className="rounded-lg bg-gray-50 p-4">
+                <h3 className="font-bold text-sm capitalize mb-3">{status} ({statusTasks.length})</h3>
+                {statusTasks.map(t => (
+                  <div key={t._id} className="bg-white rounded p-2 mb-2 text-sm shadow-sm">
+                    <div className="font-medium">{t.title}</div>
+                    {t.dueDate && <div className="text-xs text-gray-500">Due: {new Date(t.dueDate).toLocaleDateString()}</div>}
+                  </div>
+                ))}
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
-}
-
-function prev(status: string): api.Task['status'] {
-  const order: api.Task['status'][] = ['backlog', 'in-progress', 'review', 'done'];
-  const idx = order.indexOf(status as any);
-  return order[Math.max(0, idx - 1)];
-}
-
-function next(status: string): api.Task['status'] {
-  const order: api.Task['status'][] = ['backlog', 'in-progress', 'review', 'done'];
-  const idx = order.indexOf(status as any);
-  return order[Math.min(order.length - 1, idx + 1)];
 }

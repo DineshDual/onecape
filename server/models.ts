@@ -1,7 +1,7 @@
-// OneCape MongoDB Schema
+// OneCape MongoDB Schema — Enhanced
 import mongoose from 'mongoose';
 
-// Client Schema
+// Client Schema — Enhanced with brand profile
 const clientSchema = new mongoose.Schema({
   name: String,
   website: String,
@@ -13,15 +13,75 @@ const clientSchema = new mongoose.Schema({
   notes: String,
   tasks: { type: Number, default: 0 },
   completedTasks: { type: Number, default: 0 },
+  // Brand Profile
+  brandColor: { type: String, default: '#FF6600' },
+  brandColor2: String,
+  logo: String,
+  tagline: String,
+  phone: String,
+  email: String,
+  address: String,
+  socialInstagram: String,
+  socialFacebook: String,
+  socialYoutube: String,
+  socialLinkedin: String,
+  // Services catalog
+  serviceCatalog: [{
+    name: String,
+    description: String,
+    startingPrice: Number,
+  }],
+  // Portfolio
+  portfolio: [{
+    title: String,
+    category: String,
+    beforeImage: String,
+    afterImage: String,
+    description: String,
+    completedAt: Date,
+  }],
 }, { timestamps: true });
 
-// Task Schema
+// Project Schema — replaces basic tasks for client work
+const projectSchema = new mongoose.Schema({
+  client: { type: mongoose.Schema.Types.ObjectId, ref: 'Client', required: true },
+  title: String,
+  description: String,
+  type: { type: String, enum: ['interior', 'exterior', 'farming', 'marketing', 'branding', 'other'], default: 'interior' },
+  phase: { type: String, enum: ['enquiry', 'design', 'quote', 'execution', 'handover', 'completed'], default: 'enquiry' },
+  budget: { type: Number, default: 0 },
+  budgetSpent: { type: Number, default: 0 },
+  location: String,
+  startDate: Date,
+  deadline: Date,
+  completedAt: Date,
+  // Milestones
+  milestones: [{
+    title: String,
+    dueDate: Date,
+    completed: { type: Boolean, default: false },
+    completedAt: Date,
+  }],
+  // Photos
+  photos: [{
+    url: String,
+    caption: String,
+    phase: String,
+    uploadedAt: { type: Date, default: Date.now },
+  }],
+  // Notes/log
+  notes: String,
+  priority: { type: String, enum: ['high', 'medium', 'low'], default: 'medium' },
+}, { timestamps: true });
+
+// Task Schema — internal tasks (not client projects)
 const taskSchema = new mongoose.Schema({
   title: String,
   description: String,
   status: { type: String, enum: ['backlog', 'in-progress', 'review', 'done'], default: 'backlog' },
   priority: { type: String, enum: ['high', 'medium', 'low'], default: 'medium' },
   client: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
+  project: { type: mongoose.Schema.Types.ObjectId, ref: 'Project' },
   category: String,
   dueDate: Date,
   completedAt: Date,
@@ -44,7 +104,7 @@ const growthSchema = new mongoose.Schema({
   }]
 }, { timestamps: true });
 
-// Lead Schema
+// Lead Schema — Enhanced
 const leadSchema = new mongoose.Schema({
   client: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
   name: String,
@@ -53,10 +113,13 @@ const leadSchema = new mongoose.Schema({
   service: String,
   budget: Number,
   urgency: { type: String, enum: ['low', 'medium', 'high'], default: 'medium' },
-  source: { type: String, enum: ['website', 'referral', 'social', 'ads', 'cold'], default: 'website' },
+  source: { type: String, enum: ['website', 'instagram', 'whatsapp', 'referral', 'walk-in', 'ads', 'phone', 'other'], default: 'website' },
   score: Number,
-  status: { type: String, enum: ['new', 'contacted', 'qualified', 'closed'], default: 'new' },
+  status: { type: String, enum: ['new', 'contacted', 'qualified', 'proposal', 'negotiation', 'won', 'lost'], default: 'new' },
   notes: String,
+  projectType: String,
+  location: String,
+  nextFollowUp: Date,
 }, { timestamps: true });
 
 // Competitor Schema
@@ -64,39 +127,29 @@ const competitorSchema = new mongoose.Schema({
   client: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
   name: String,
   website: String,
-  strengths: [String],
-  weaknesses: [String],
+  strengths: String,
+  weaknesses: String,
   threat: { type: String, enum: ['low', 'medium', 'high'], default: 'medium' },
-  lastAnalyzed: { type: Date, default: Date.now }
+  pricing: String,
+  services: [String],
+  lastAnalyzed: Date,
 }, { timestamps: true });
 
 // Content Schema
 const contentSchema = new mongoose.Schema({
   client: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
-  type: { type: String, enum: ['post', 'reel', 'carousel', 'poster'], required: true },
-  title: String,
-  description: String,
-  hashtags: [String],
-  scheduledAt: Date,
-  publishedAt: Date,
-  platform: String,
-  status: { type: String, enum: ['draft', 'scheduled', 'published', 'archived'], default: 'draft' },
-  assets: [String], // URLs to images/videos
-  engagement: {
-    likes: Number,
-    comments: Number,
-    shares: Number,
-    views: Number
-  }
+  type: String,
+  prompt: String,
+  content: String,
+  metadata: mongoose.Schema.Types.Mixed,
 }, { timestamps: true });
 
-// Website Analysis Schema
+// Analysis Schema
 const analysisSchema = new mongoose.Schema({
   client: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
   url: String,
   title: String,
   metaDescription: String,
-  industry: String,
   hasBlog: Boolean,
   hasSEO: Boolean,
   hasSocial: Boolean,
@@ -110,7 +163,7 @@ const analysisSchema = new mongoose.Schema({
   analyzedAt: { type: Date, default: Date.now }
 }, { timestamps: true });
 
-// Social Schema
+// Social Schema — Enhanced with scheduling
 const socialSchema = new mongoose.Schema({
   client: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
   platform: String,
@@ -121,16 +174,32 @@ const socialSchema = new mongoose.Schema({
   posts: [{
     id: String,
     content: String,
+    scheduledAt: Date,
     publishedAt: Date,
+    status: { type: String, enum: ['draft', 'scheduled', 'published', 'failed'], default: 'draft' },
     engagement: {
       likes: Number,
       comments: Number,
-      shares: Number
+      shares: Number,
+      reach: Number,
     }
   }]
 }, { timestamps: true });
 
+// Keyword Schema — for SEO tracking
+const keywordSchema = new mongoose.Schema({
+  client: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
+  keyword: String,
+  volume: Number,
+  difficulty: { type: String, enum: ['low', 'medium', 'high'], default: 'medium' },
+  intent: { type: String, enum: ['informational', 'transactional', 'navigational'], default: 'informational' },
+  currentRank: Number,
+  targetRank: Number,
+  url: String,
+}, { timestamps: true });
+
 const Client = mongoose.models.Client || mongoose.model('Client', clientSchema);
+const Project = mongoose.models.Project || mongoose.model('Project', projectSchema);
 const Task = mongoose.models.Task || mongoose.model('Task', taskSchema);
 const Growth = mongoose.models.Growth || mongoose.model('Growth', growthSchema);
 const Lead = mongoose.models.Lead || mongoose.model('Lead', leadSchema);
@@ -138,5 +207,6 @@ const Competitor = mongoose.models.Competitor || mongoose.model('Competitor', co
 const Content = mongoose.models.Content || mongoose.model('Content', contentSchema);
 const Analysis = mongoose.models.Analysis || mongoose.model('Analysis', analysisSchema);
 const Social = mongoose.models.Social || mongoose.model('Social', socialSchema);
+const Keyword = mongoose.models.Keyword || mongoose.model('Keyword', keywordSchema);
 
-export { Client, Task, Growth, Lead, Competitor, Content, Analysis, Social };
+export { Client, Project, Task, Growth, Lead, Competitor, Content, Analysis, Social, Keyword };

@@ -7,7 +7,7 @@ import cors from 'cors';
 import fs from 'fs';
 import path from 'path';
 import mongoose from 'mongoose';
-import { Client, Task, Growth, Lead, Competitor, Content, Analysis, Social } from './models';
+import { Client, Project, Task, Growth, Lead, Competitor, Content, Analysis, Social, Keyword } from './models';
 import { ContentGenerator } from './content-generator';
 import { detectIndustry, generatePlan, scoreLead } from './utils';
 
@@ -271,6 +271,76 @@ function generateFallback(type: string, prompt: string, clientName: string): str
   if (type === 'email') return `Subject: ${prompt}\n\nHi [Client Name],\n\nThank you for your interest in our interior design services.\n\nBased on your requirements, we'd love to schedule a site visit to understand your space better. Our team brings 15+ years of experience across 500+ projects in Tamil Nadu.\n\nNext steps:\n1. Free site visit & measurement\n2. 3D design preview within 5 days\n3. Detailed quote with material breakdown\n\nShall we schedule a visit this week?\n\nBest regards,\n${clientName} Team\n📞 [Phone]\n🌐 [Website]`;
   return `📊 ${prompt}\n\nContent for: ${clientName}`;
 }
+
+// ─── Projects API ───
+app.get('/api/projects', authCheck, async (req, res) => {
+  const clientId = req.query.client as string;
+  const query = clientId ? { client: clientId } : {};
+  const projects = await Project.find(query).populate('client', 'name').sort({ createdAt: -1 }).lean();
+  res.json(projects);
+});
+
+app.post('/api/projects', authCheck, async (req, res) => {
+  try {
+    const project = new Project({ ...req.body, createdAt: new Date() });
+    await project.save();
+    res.json(project);
+  } catch (e: any) { res.status(400).json({ error: e.message }); }
+});
+
+app.put('/api/projects/:id', authCheck, async (req, res) => {
+  const project = await Project.findByIdAndUpdate(req.params.id, req.body, { new: true });
+  if (!project) return res.status(404).json({ error: 'Not found' });
+  res.json(project);
+});
+
+app.delete('/api/projects/:id', authCheck, async (req, res) => {
+  await Project.findByIdAndDelete(req.params.id);
+  res.json({ ok: true });
+});
+
+// ─── Keywords API ───
+app.get('/api/keywords/:clientId', authCheck, async (req, res) => {
+  const keywords = await Keyword.find({ client: req.params.clientId }).lean();
+  res.json(keywords);
+});
+
+app.post('/api/keywords/:clientId', authCheck, async (req, res) => {
+  const kw = new Keyword({ client: req.params.clientId, ...req.body });
+  await kw.save();
+  res.json(kw);
+});
+
+app.put('/api/keywords/:id', authCheck, async (req, res) => {
+  const kw = await Keyword.findByIdAndUpdate(req.params.id, req.body, { new: true });
+  res.json(kw);
+});
+
+app.delete('/api/keywords/:id', authCheck, async (req, res) => {
+  await Keyword.findByIdAndDelete(req.params.id);
+  res.json({ ok: true });
+});
+
+// ─── Leads (all, not just per-client) ───
+app.get('/api/leads', authCheck, async (req, res) => {
+  const leads = await Lead.find().populate('client', 'name').sort({ createdAt: -1 }).lean();
+  res.json(leads);
+});
+
+// ─── Projects (all, enriched) ───
+app.get('/api/stats', authCheck, async (req, res) => {
+  const [clientCount, projectCount, leadCount, activeLeads, revenue] = await Promise.all([
+    Client.countDocuments(),
+    Project.countDocuments(),
+    Lead.countDocuments(),
+    Lead.countDocuments({ status: { $in: ['new', 'contacted', 'qualified', 'proposal', 'negotiation'] } }),
+    Client.aggregate([{ $group: { _id: null, total: { $sum: '$monthlyValue' } } }]),
+  ]);
+  const projects = await Project.find().lean();
+  const phaseCounts: Record<string, number> = {};
+  projects.forEach(p => { phaseCounts[p.phase] = (phaseCounts[p.phase] || 0) + 1; });
+  res.json({ clientCount, projectCount, leadCount, activeLeads, totalRevenue: revenue[0]?.total || 0, phaseCounts });
+});
 
 // ─── Health ───
 app.get('/api/health', (req, res) => {

@@ -1,146 +1,197 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useApp } from './AppProvider';
-import { PageHeader, EmptyState } from './Dashboard';
+import { generateContent, getContent, createKeyword, getKeywords } from '../lib/api';
+
+const CONTENT_TYPES = [
+  { id: 'caption', name: 'Instagram Caption', desc: 'Engaging Tamil + English captions with hashtags' },
+  { id: 'blog', name: 'SEO Blog Post', desc: 'Search-optimized content for Chennai keywords' },
+  { id: 'email', name: 'Email Template', desc: 'Professional follow-up and quote emails' },
+  { id: 'whatsapp', name: 'WhatsApp Broadcast', desc: 'Short, punchy messages for groups' },
+  { id: 'poster_text', name: 'Poster Text', desc: 'Bold headlines for before/after posts' },
+] as const;
 
 export default function ContentStudio() {
   const { clients } = useApp();
-  const [selectedClient, setSelectedClient] = useState('');
-  const [generating, setGenerating] = useState(false);
-  const [contentType, setContentType] = useState<'blog' | 'caption' | 'poster' | 'email'>('blog');
+  const [selectedType, setSelectedType] = useState('caption');
   const [prompt, setPrompt] = useState('');
-  const [output, setOutput] = useState('');
-  const [history, setHistory] = useState<{ type: string; title: string; content: string; date: string }[]>([]);
+  const [clientId, setClientId] = useState('');
+  const [generating, setGenerating] = useState(false);
+  const [result, setResult] = useState('');
+  const [savedContent, setSavedContent] = useState<any[]>([]);
 
-  const templates: Record<string, { label: string; placeholder: string }[]> = {
-    blog: [
-      { label: '📋 How-To Guide', placeholder: 'e.g. How to choose modular kitchen design in Chennai' },
-      { label: '💰 Cost Guide', placeholder: 'e.g. False ceiling cost in Tamil Nadu 2026' },
-      { label: '⚔️ Comparison', placeholder: 'e.g. Aluminium vs uPVC windows — which is better?' },
-    ],
-    caption: [
-      { label: '📸 Project Showcase', placeholder: 'e.g. Modern kitchen transformation in Anna Nagar' },
-      { label: '💡 Design Tip', placeholder: 'e.g. 5 things to check before hiring an interior designer' },
-      { label: '⭐ Testimonial', placeholder: 'e.g. Client review from T Nagar project' },
-    ],
-    poster: [
-      { label: '🖼️ Before/After', placeholder: 'Describe the transformation' },
-      { label: '📊 Pricing Infographic', placeholder: 'e.g. Room-by-room interior costs' },
-      { label: '🏷️ Service Promo', placeholder: 'e.g. 20% off modular kitchen this month' },
-    ],
-    email: [
-      { label: '📧 Client Proposal', placeholder: 'e.g. Interior design proposal for 3BHK' },
-      { label: '📧 Follow-Up', placeholder: 'e.g. After site visit follow-up' },
-      { label: '📧 Newsletter', placeholder: 'e.g. Monthly design trends digest' },
-    ],
-  };
+  useEffect(() => {
+    if (clients.length > 0 && !clientId) setClientId(clients[0]._id);
+    loadSaved();
+  }, [clients]);
 
-  const generate = async () => {
-    if (!prompt) return;
-    setGenerating(true);
-    setOutput('');
+  const loadSaved = async () => {
     try {
-      // Call backend AI endpoint (will be built)
-      const res = await fetch(`/api/generate`, {
-        method: 'POST',
-        headers: { 'Authorization': 'Bearer onecape2026', 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type: contentType, prompt, client: selectedClient }),
-      });
-      if (res.ok) {
-        const data = await res.json();
-        setOutput(data.content);
-        setHistory(prev => [{ type: contentType, title: prompt.slice(0, 50), content: data.content, date: new Date().toISOString() }, ...prev]);
-      } else {
-        // Fallback: generate locally
-        setOutput(generateFallback(contentType, prompt));
-        setHistory(prev => [{ type: contentType, title: prompt.slice(0, 50), content: output, date: new Date().toISOString() }, ...prev]);
-      }
-    } catch {
-      setOutput(generateFallback(contentType, prompt));
+      const all = await Promise.all(clients.map(c => getContent(c._id)));
+      setSavedContent(all.flat().slice(0, 10));
+    } catch (e) {}
+  };
+
+  const handleGenerate = async () => {
+    if (!prompt || !clientId) return;
+    setGenerating(true);
+    try {
+      const res = await generateContent(selectedType, prompt, clientId);
+      setResult(res.content);
+    } catch (e) {
+      setResult('Error generating content. Please try again.');
+    } finally {
+      setGenerating(false);
     }
-    setGenerating(false);
   };
 
-  const generateFallback = (type: string, p: string): string => {
-    if (type === 'caption') return `✨ ${p}\n\nTransform your space with expert craftsmanship. DM us for a free consultation! 📩\n\n#InteriorDesign #Chennai #TheVeeKay #HomeMakeover`;
-    if (type === 'blog') return `# ${p}\n\nLooking for the best interior design solutions in Chennai? You're in the right place.\n\n## Why This Matters\n\nChoosing the right interior design partner can save you up to 30% on your project while getting better results. Here's what you need to know...\n\n## Key Points\n\n1. Always check past project portfolio\n2. Get detailed cost breakdown upfront\n3. Ask about material warranties\n4. Visit their completed projects\n5. Compare at least 3 quotes\n\n## Conclusion\n\nReady to transform your space? Contact us today for a free consultation.\n\n*— TheVeeKay, 15 years of interior excellence across Tamil Nadu*`;
-    if (type === 'email') return `Subject: ${p}\n\nHi [Client Name],\n\nThank you for your interest in our interior design services.\n\nBased on your requirements, we'd love to schedule a site visit to understand your space better. Our team brings 15+ years of experience across 500+ projects in Tamil Nadu.\n\nNext steps:\n1. Free site visit & measurement\n2. 3D design preview within 5 days\n3. Detailed quote with material breakdown\n\nShall we schedule a visit this week?\n\nBest regards,\nTheVeeKay Team\n📞 [Phone]\n🌐 theveekay.com`;
-    return `📊 ${p}\n\nContent generated for: ${p}`;
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
   };
 
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(output);
-    alert('Copied!');
+  const getPlaceholder = () => {
+    switch (selectedType) {
+      case 'caption': return 'e.g. New kitchen renovation project in Anna Nagar, Chennai';
+      case 'blog': return 'e.g. Top 10 interior design trends in Chennai 2026';
+      case 'email': return 'e.g. Quote for living room interior design project';
+      case 'whatsapp': return 'e.g. Special festive offer for Interior Design - 25% off';
+      case 'poster_text': return 'e.g. Before & After: Modern Kitchen Transformation';
+      default: return 'Describe what you want to create...';
+    }
   };
 
   return (
-    <div>
-      <PageHeader title="Content Studio" subtitle="Generate posts, captions, blog content" />
+    <div className="content-studio">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Generator */}
+        <div className="lg:col-span-2">
+          <div className="card">
+            <div className="card-header">
+              <h2>AI Content Generator</h2>
+            </div>
+            
+            <div className="mb-4">
+              <select 
+                value={clientId} 
+                onChange={e => setClientId(e.target.value)}
+                className="w-full p-2 border rounded-lg text-sm mb-4"
+              >
+                {clients.map(c => <option key={c._id} value={c._id}>{c.name}</option>)}
+              </select>
 
-      <div className="content-studio-layout">
-        {/* Left: Generator */}
-        <div className="card" style={{ flex: 2 }}>
-          <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 16 }}>Create Content</h3>
-
-          {/* Client selector */}
-          <div className="form-group">
-            <label>Client</label>
-            <select value={selectedClient} onChange={e => setSelectedClient(e.target.value)}>
-              <option value="">Select client...</option>
-              {clients.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-            </select>
-          </div>
-
-          {/* Content type tabs */}
-          <div className="content-tabs">
-            {Object.entries({ blog: '📝 Blog', caption: '📱 Caption', poster: '🖼️ Poster', email: '📧 Email' }).map(([k, v]) => (
-              <button key={k} className={`tab ${contentType === k ? 'active' : ''}`} onClick={() => setContentType(k as any)}>{v}</button>
-            ))}
-          </div>
-
-          {/* Templates */}
-          <div className="template-grid">
-            {templates[contentType]?.map((t, i) => (
-              <button key={i} className="template-btn" onClick={() => setPrompt(t.placeholder)}>
-                {t.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Prompt */}
-          <div className="form-group">
-            <label>What do you want to create?</label>
-            <textarea rows={3} value={prompt} onChange={e => setPrompt(e.target.value)} placeholder={templates[contentType]?.[0]?.placeholder || 'Describe your content...'} />
-          </div>
-
-          <button className="btn btn-primary" onClick={generate} disabled={!prompt || generating} style={{ width: '100%' }}>
-            {generating ? '⏳ Generating...' : '🚀 Generate Content'}
-          </button>
-
-          {/* Output */}
-          {output && (
-            <div className="content-output">
-              <div className="content-output-header">
-                <h4>Generated Content</h4>
-                <button className="btn btn-sm btn-secondary" onClick={copyToClipboard}>📋 Copy</button>
+              <div className="grid grid-cols-5 gap-2 mb-4">
+                {CONTENT_TYPES.map(type => (
+                  <button
+                    key={type.id}
+                    onClick={() => { setSelectedType(type.id); setResult(''); }}
+                    className={`p-3 rounded-lg text-center text-sm border transition-all ${
+                      selectedType === type.id 
+                        ? 'bg-orange-50 border-orange-500 text-orange-600 font-semibold' 
+                        : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50'
+                    }`}
+                  >
+                    <div className="text-lg mb-1">
+                      {type.id === 'caption' && '📸'}
+                      {type.id === 'blog' && '📝'}
+                      {type.id === 'email' && '📧'}
+                      {type.id === 'whatsapp' && '💬'}
+                      {type.id === 'poster_text' && '🎨'}
+                    </div>
+                    <div>{type.name}</div>
+                  </button>
+                ))}
               </div>
-              <pre className="content-text">{output}</pre>
+
+              <textarea
+                placeholder={getPlaceholder()}
+                value={prompt}
+                onChange={e => setPrompt(e.target.value)}
+                className="w-full p-3 border rounded-lg text-sm mb-4"
+                rows={3}
+              />
+
+              <button
+                onClick={handleGenerate}
+                disabled={generating || !prompt}
+                className="w-full p-3 bg-orange-500 text-white rounded-lg font-semibold disabled:opacity-50"
+              >
+                {generating ? 'Generating...' : '✨ Generate Content'}
+              </button>
+            </div>
+          </div>
+
+          {result && (
+            <div className="card mt-6">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="font-bold">Generated Content</h3>
+                <div className="flex gap-2">
+                  <button onClick={() => copyToClipboard(result)} className="text-xs text-orange-500 hover:underline">📋 Copy</button>
+                  <button onClick={() => setResult('')} className="text-xs text-gray-400 hover:underline">Clear</button>
+                </div>
+              </div>
+              <pre className="whitespace-pre-wrap text-sm p-4 bg-gray-50 rounded-lg border border-gray-100">{result}</pre>
             </div>
           )}
         </div>
 
-        {/* Right: History */}
-        <div className="card" style={{ flex: 1 }}>
-          <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 16 }}>Recent</h3>
-          {history.length === 0 && <EmptyState message="No content generated yet" />}
-          {history.map((h, i) => (
-            <div key={i} className="history-item" onClick={() => setOutput(h.content)}>
-              <span className="history-type">{h.type}</span>
-              <p>{h.title}</p>
-              <span className="history-date">{new Date(h.date).toLocaleDateString()}</span>
+        {/* Templates & Saved */}
+        <div className="space-y-6">
+          <div className="card">
+            <div className="card-header">
+              <h2>Quick Templates</h2>
             </div>
-          ))}
+            <div className="space-y-3">
+              <button 
+                onClick={() => { setSelectedType('caption'); setPrompt('New interior project completed in Chennai - share before/after'); }}
+                className="w-full text-left p-3 bg-gray-50 rounded-lg text-sm hover:bg-orange-50 transition-colors"
+              >
+                📸 Instagram: Before/After post
+              </button>
+              <button 
+                onClick={() => { setSelectedType('blog'); setPrompt('Interior design tips for small apartments in Chennai'); }}
+                className="w-full text-left p-3 bg-gray-50 rounded-lg text-sm hover:bg-orange-50 transition-colors"
+              >
+                📝 Blog: Small apartment tips
+              </button>
+              <button 
+                onClick={() => { setSelectedType('email'); setPrompt('Follow up on site visit for Mr Sharma\'s villa project'); }}
+                className="w-full text-left p-3 bg-gray-50 rounded-lg text-sm hover:bg-orange-50 transition-colors"
+              >
+                📧 Email: Follow up after site visit
+              </button>
+              <button 
+                onClick={() => { setSelectedType('whatsapp'); setPrompt('Diwali special - 20% off interior design consultation'); }}
+                className="w-full text-left p-3 bg-gray-50 rounded-lg text-sm hover:bg-orange-50 transition-colors"
+              >
+                💬 WhatsApp: Festive offer
+              </button>
+              <button 
+                onClick={() => { setSelectedType('poster_text'); setPrompt('Modern Kitchen Makeover - Before vs After'); }}
+                className="w-full text-left p-3 bg-gray-50 rounded-lg text-sm hover:bg-orange-50 transition-colors"
+              >
+                🎨 Poster: Kitchen makeover
+              </button>
+            </div>
+          </div>
+
+          <div className="card">
+            <div className="card-header">
+              <h2>Recent Content</h2>
+            </div>
+            {savedContent.length > 0 ? (
+              <div className="space-y-3">
+                {savedContent.map((c: any) => (
+                  <div key={c._id} className="p-3 bg-gray-50 rounded-lg text-sm">
+                    <div className="font-medium text-xs text-orange-500 mb-1">{c.type} · {new Date(c.createdAt).toLocaleDateString()}</div>
+                    <div className="line-clamp-3 text-gray-600">{c.content}</div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center text-sm text-gray-500 py-4">No saved content yet.</div>
+            )}
+          </div>
         </div>
       </div>
     </div>

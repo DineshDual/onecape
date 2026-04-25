@@ -1,122 +1,141 @@
 'use client';
 
 import { useState } from 'react';
-import { PageHeader, EmptyState, StatCard } from './Dashboard';
+import { useApp } from './AppProvider';
 
 export default function Social() {
-  const [postizKey, setPostizKey] = useState('');
-  const [channels, setChannels] = useState<{ id: string; name: string; provider: string }[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [tab, setTab] = useState<'compose' | 'scheduled' | 'settings'>('compose');
-  const [composer, setComposer] = useState({ content: '', selectedChannels: [] as string[], scheduleAt: '' });
-  const [sending, setSending] = useState(false);
-  const [error, setError] = useState('');
-
-  const POSTIZ_API = 'https://api.postiz.com/public/v1';
-
-  const loadChannels = async () => {
-    if (!postizKey) return;
-    setLoading(true);
-    setError('');
-    try {
-      const res = await fetch(`${POSTIZ_API}/integrations`, { headers: { 'Authorization': postizKey } });
-      if (!res.ok) throw new Error(`${res.status}`);
-      const data = await res.json();
-      setChannels(Array.isArray(data) ? data : []);
-      localStorage.setItem('onecape_postiz_key', postizKey);
-    } catch (e: any) { setError(e.message); }
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    const saved = localStorage.getItem('onecape_postiz_key');
-    if (saved) { setPostizKey(saved); loadChannels(); }
-  }, []);
-
-  const sendPost = async () => {
-    if (!postizKey || !composer.content || composer.selectedChannels.length === 0) return;
-    setSending(true);
-    try {
-      const body: any = { content: composer.content, integrations: composer.selectedChannels };
-      if (composer.scheduleAt) body.scheduleAt = new Date(composer.scheduleAt).toISOString();
-      const res = await fetch(`${POSTIZ_API}/posts`, {
-        method: 'POST', headers: { 'Authorization': postizKey, 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      });
-      if (!res.ok) throw new Error(`Post failed: ${res.status}`);
-      setComposer({ content: '', selectedChannels: [], scheduleAt: '' });
-    } catch (e: any) { setError(e.message); }
-    setSending(false);
-  };
-
-  const icons: Record<string, string> = { x: '𝕏', linkedin: '💼', facebook: '📘', instagram: '📸', 'linkedin-page': '🏢', threads: '🧵', youtube: '▶️', tiktok: '🎵', pinterest: '📌', bluesky: '🦋' };
+  const { clients } = useApp();
+  const [activeTab, setActiveTab] = useState('scheduler');
 
   return (
-    <div>
-      <PageHeader title="Social Media" subtitle="Schedule and publish across platforms" />
-
-      {!postizKey && (
-        <div className="card" style={{ marginBottom: 24, border: '2px solid var(--oc-orange)' }}>
-          <h3>🔗 Connect Postiz</h3>
-          <p style={{ fontSize: 13, color: 'var(--oc-gray-500)', marginBottom: 12 }}>
-            Get your API key from <a href="https://platform.postiz.com" target="_blank" style={{ color: 'var(--oc-orange)' }}>platform.postiz.com</a> → Settings → Developers
-          </p>
-          <div className="form-group"><input value={postizKey} onChange={e => setPostizKey(e.target.value)} placeholder="Paste Postiz API key" onKeyDown={e => e.key === 'Enter' && loadChannels()} /></div>
-          <button className="btn btn-primary" onClick={loadChannels} disabled={!postizKey || loading}>{loading ? 'Connecting...' : '🔗 Connect'}</button>
-          {error && <p style={{ color: 'var(--oc-red)', fontSize: 12, marginTop: 8 }}>{error}</p>}
+    <div className="social">
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-lg font-bold">Social Media</h2>
+        <div className="flex gap-2">
+          <button onClick={() => setActiveTab('scheduler')} className={`px-4 py-2 rounded-lg text-sm ${activeTab === 'scheduler' ? 'bg-orange-500 text-white' : 'bg-gray-100'}`}>Scheduler</button>
+          <button onClick={() => setActiveTab('analytics')} className={`px-4 py-2 rounded-lg text-sm ${activeTab === 'analytics' ? 'bg-orange-500 text-white' : 'bg-gray-100'}`}>Analytics</button>
+          <button onClick={() => setActiveTab('accounts')} className={`px-4 py-2 rounded-lg text-sm ${activeTab === 'accounts' ? 'bg-orange-500 text-white' : 'bg-gray-100'}`}>Accounts</button>
         </div>
-      )}
-
-      <div className="tabs" style={{ marginBottom: 20 }}>
-        <button className={`tab ${tab === 'compose' ? 'active' : ''}`} onClick={() => setTab('compose')}>✍️ Compose</button>
-        <button className={`tab ${tab === 'scheduled' ? 'active' : ''}`} onClick={() => setTab('scheduled')}>📅 Scheduled</button>
-        <button className={`tab ${tab === 'settings' ? 'active' : ''}`} onClick={() => setTab('settings')}>⚙️ Settings</button>
       </div>
 
-      {tab === 'compose' && (
-        <div className="card">
-          <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 16 }}>New Post</h3>
-          {channels.length > 0 && (
-            <div style={{ marginBottom: 16 }}>
-              <label style={{ fontSize: 12, fontWeight: 600 }}>Select Channels</label>
-              <div className="channel-grid">
-                {channels.map(ch => (
-                  <button key={ch.id} className={`channel-btn ${composer.selectedChannels.includes(ch.id) ? 'channel-selected' : ''}`}
-                    onClick={() => setComposer(prev => ({ ...prev, selectedChannels: prev.selectedChannels.includes(ch.id) ? prev.selectedChannels.filter(c => c !== ch.id) : [...prev.selectedChannels, ch.id] }))}>
-                    {icons[ch.provider] || '📱'} {ch.name || ch.provider}
-                  </button>
-                ))}
+      {activeTab === 'scheduler' && (
+        <div className="space-y-6">
+          <div className="card">
+            <div className="card-header">
+              <h2>Upcoming Posts</h2>
+              <button className="btn btn-primary">+ Schedule Post</button>
+            </div>
+            <div className="space-y-3">
+              <div className="flex items-center gap-4 p-4 border rounded-lg">
+                <div className="text-2xl">📸</div>
+                <div className="flex-1">
+                  <div className="font-semibold">Before & After: Kitchen Renovation</div>
+                  <div className="text-sm text-gray-500">Instagram · Tomorrow at 10:00 AM</div>
+                </div>
+                <span className="px-2 py-1 bg-blue-100 text-blue-600 rounded text-xs">Scheduled</span>
+              </div>
+              <div className="flex items-center gap-4 p-4 border rounded-lg">
+                <div className="text-2xl">📘</div>
+                <div className="flex-1">
+                  <div className="font-semibold">Client Testimonial Series - Part 1</div>
+                  <div className="text-sm text-gray-500">Facebook · April 27, 2026 at 3:00 PM</div>
+                </div>
+                <span className="px-2 py-1 bg-yellow-100 text-yellow-600 rounded text-xs">Draft</span>
               </div>
             </div>
-          )}
-          <div className="form-group"><textarea rows={5} value={composer.content} onChange={e => setComposer({ ...composer, content: e.target.value })} placeholder="Write your post..." /><div style={{ textAlign: 'right', fontSize: 12, color: composer.content.length > 280 ? 'var(--oc-red)' : 'var(--oc-gray-500)' }}>{composer.content.length}</div></div>
-          <div className="form-group"><label>Schedule (optional)</label><input type="datetime-local" value={composer.scheduleAt} onChange={e => setComposer({ ...composer, scheduleAt: e.target.value })} /></div>
-          <div className="form-actions">
-            <button className="btn btn-primary" onClick={sendPost} disabled={!composer.content || composer.selectedChannels.length === 0 || sending}>
-              {sending ? 'Publishing...' : composer.scheduleAt ? '📅 Schedule' : '🚀 Post Now'}
-            </button>
           </div>
-          {error && <p style={{ color: 'var(--oc-red)', fontSize: 12, marginTop: 8 }}>{error}</p>}
-        </div>
-      )}
 
-      {tab === 'settings' && (
-        <div className="card">
-          <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 16 }}>Postiz Settings</h3>
-          <div className="form-group"><label>API Key</label><input value={postizKey} onChange={e => setPostizKey(e.target.value)} placeholder="Your Postiz API key" /></div>
-          <button className="btn btn-primary" onClick={loadChannels} disabled={!postizKey || loading}>{loading ? 'Connecting...' : '🔄 Reconnect'}</button>
-          {channels.length > 0 && (
-            <div style={{ marginTop: 16 }}>
-              <h4 style={{ fontSize: 14, fontWeight: 600, marginBottom: 8 }}>Connected ({channels.length})</h4>
-              <div className="channel-grid">{channels.map(ch => <span key={ch.id} className="tag">{icons[ch.provider] || '📱'} {ch.name || ch.provider}</span>)}</div>
+          <div className="card">
+            <div className="card-header">
+              <h2>Content Calendar</h2>
             </div>
-          )}
+            <div className="grid grid-cols-7 gap-2">
+              {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => (
+                <div key={day} className="text-center text-sm font-semibold text-gray-500">{day}</div>
+              ))}
+              {Array.from({ length: 30 }, (_, i) => (
+                <div key={i} className="aspect-square border rounded-lg flex items-center justify-center text-sm relative cursor-pointer hover:bg-gray-50">
+                  <span>{i + 1}</span>
+                  {[5, 12, 19, 26].includes(i + 1) && (
+                    <div className="absolute bottom-1 right-1 w-2 h-2 bg-orange-500 rounded-full" />
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       )}
 
-      {tab === 'scheduled' && <div className="card"><EmptyState message="Posts will appear here after publishing" /></div>}
+      {activeTab === 'analytics' && (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="card">
+            <div className="stat-icon">👍</div>
+            <div className="stat-content">
+              <h3>1,234</h3>
+              <p>Likes this week</p>
+            </div>
+          </div>
+          <div className="card">
+            <div className="stat-icon">💬</div>
+            <div className="stat-content">
+              <h3>89</h3>
+              <p>Comments</p>
+            </div>
+          </div>
+          <div className="card">
+            <div className="stat-icon">📤</div>
+            <div className="stat-content">
+              <h3>45</h3>
+              <p>Shares</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {activeTab === 'accounts' && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="card">
+            <div className="flex items-center gap-4">
+              <div className="text-3xl">📸</div>
+              <div>
+                <div className="font-semibold">Instagram</div>
+                <div className="text-sm text-gray-500">@theveekay_official</div>
+                <div className="text-xs text-green-500 mt-1">✓ Connected</div>
+              </div>
+            </div>
+          </div>
+          <div className="card">
+            <div className="flex items-center gap-4">
+              <div className="text-3xl">📘</div>
+              <div>
+                <div className="font-semibold">Facebook</div>
+                <div className="text-sm text-gray-500">TheVeeKay Interiors</div>
+                <div className="text-xs text-green-500 mt-1">✓ Connected</div>
+              </div>
+            </div>
+          </div>
+          <div className="card opacity-50">
+            <div className="flex items-center gap-4">
+              <div className="text-3xl">🎬</div>
+              <div>
+                <div className="font-semibold">YouTube</div>
+                <div className="text-sm text-gray-500">TheVeeKay Channel</div>
+                <div className="text-xs text-gray-500 mt-1">⊘ Not connected</div>
+              </div>
+            </div>
+          </div>
+          <div className="card opacity-50">
+            <div className="flex items-center gap-4">
+              <div className="text-3xl">💼</div>
+              <div>
+                <div className="font-semibold">LinkedIn</div>
+                <div className="text-sm text-gray-500">TheVeeKay Business</div>
+                <div className="text-xs text-gray-500 mt-1">⊘ Not connected</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
-
-import { useEffect } from 'react';
