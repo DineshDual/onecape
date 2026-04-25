@@ -1,0 +1,4 @@
+/api/*  http://13.126.110.0/onecape-api/api/:splat  200!
+/onecape-api/*  http://13.126.110.0/onecape-api/:splat  200!
+
+/*  /index.html  200
