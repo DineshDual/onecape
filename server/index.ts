@@ -24,7 +24,7 @@ mongoose.connect(MONGODB_URI)
 const contentGenerator = new ContentGenerator();
 
 // ─── Setup ───
-app.use(cors({ origin: ['http://localhost:3000', 'https://onecape-marketing.netlify.app', 'http://13.126.110.0', 'https://onecape.vercel.app', 'https://onecape-prod.vercel.app'] }));
+app.use(cors({ origin: ['http://localhost:3000', 'https://onecape-marketing.netlify.app', 'http://13.126.110.0', 'https://13.126.110.0', 'https://onecape.vercel.app', 'https://onecape-prod.vercel.app', 'https://13.126.110.0:8443'] }));
 app.use(express.json({ limit: '10mb' }));
 
 // ─── Auth ───

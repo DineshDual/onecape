@@ -1,5 +1,5 @@
 // OneCape API Client — centralized, with error handling + loading
-const API_URL = 'http://13.126.110.0:3456';
+const API_URL = 'https://13.126.110.0/api';
 const API_KEY = 'onecape2026';
 
 export interface Client {
